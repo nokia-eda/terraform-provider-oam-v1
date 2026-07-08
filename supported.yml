@@ -1,0 +1,62 @@
+datasources:
+  - model_name: app_group
+    oas_endpoint: /apps/oam.eda.nokia.com
+    oas_schema: AppGroup
+  - model_name: resource_list
+    oas_endpoint: /apps/oam.eda.nokia.com/v1
+    oas_schema: ResourceList
+  - model_name: mirror_list
+    oas_endpoint: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/mirrors
+    oas_schema: com.nokia.eda.oam.v1.MirrorList
+  - model_name: mirror
+    oas_endpoint: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/mirrors/{name}
+    oas_schema: com.nokia.eda.oam.v1.Mirror
+  - model_name: threshold_list
+    oas_endpoint: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/thresholds
+    oas_schema: com.nokia.eda.oam.v1.ThresholdList
+  - model_name: threshold
+    oas_endpoint: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/thresholds/{name}
+    oas_schema: com.nokia.eda.oam.v1.Threshold
+  - model_name: ping_list
+    oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/pings
+    oas_schema: com.nokia.eda.oam.v1.PingList
+  - model_name: ping
+    oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/pings/{name}
+    oas_schema: com.nokia.eda.oam.v1.Ping
+  - model_name: workflow_get_inputs_resp_elem
+    oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/pings/{name}/_input
+    oas_schema: WorkflowGetInputsRespElem
+  - model_name: tech_support_list
+    oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/techsupports
+    oas_schema: com.nokia.eda.oam.v1.TechSupportList
+  - model_name: tech_support
+    oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/techsupports/{name}
+    oas_schema: com.nokia.eda.oam.v1.TechSupport
+
+resources:
+  - model_name: mirror
+    oas_endpoint: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/mirrors
+    oas_schema: com.nokia.eda.oam.v1.Mirror
+  - model_name: threshold
+    oas_endpoint: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/thresholds
+    oas_schema: com.nokia.eda.oam.v1.Threshold
+  - model_name: ping
+    oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/pings
+    oas_schema: com.nokia.eda.oam.v1.Ping
+  - model_name: tech_support
+    oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/techsupports
+    oas_schema: com.nokia.eda.oam.v1.TechSupport
+
+qualified:
+  datasources:
+    - oas_schema: IntentTargets
+      get: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/mirrors/{name}/_targets
+    - oas_schema: ResourceHistory
+      get: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/mirrors/{name}/_revs
+    - oas_schema: UIResult
+      get: /apps/oam.eda.nokia.com/v1/_ui/{pathname}
+    - oas_schema: com.nokia.eda.oam.v1.Mirror_DeletedResources
+      get: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/mirrors/_deleted
+    - oas_schema: com.nokia.eda.oam.v1.Threshold_DeletedResources
+      get: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/thresholds/_deleted
+  resources:
