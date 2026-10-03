@@ -35,10 +35,6 @@ description: |-
 <a id="nestedatt--items"></a>
 ### Nested Schema for `items`
 
-Optional:
-
-- `spec` (Attributes) Mirror allows for the configuration of mirroring sources, including interfaces, subinterfaces, and filters, as well as the destination for the mirrored traffic, which can be either local or remote. (see [below for nested schema](#nestedatt--items--spec))
-
 Read-Only:
 
 - `alarms` (Attributes) (see [below for nested schema](#nestedatt--items--alarms))
@@ -46,169 +42,8 @@ Read-Only:
 - `deviations` (Attributes) (see [below for nested schema](#nestedatt--items--deviations))
 - `kind` (String)
 - `metadata` (Attributes) (see [below for nested schema](#nestedatt--items--metadata))
+- `spec` (Attributes) Mirror allows for the configuration of mirroring sources, including interfaces, subinterfaces, and filters, as well as the destination for the mirrored traffic, which can be either local or remote. (see [below for nested schema](#nestedatt--items--spec))
 - `status` (Attributes) MirrorStatus defines the observed state of Mirror (see [below for nested schema](#nestedatt--items--status))
-
-<a id="nestedatt--items--spec"></a>
-### Nested Schema for `items.spec`
-
-Optional:
-
-- `local_destination` (Attributes) Local destination for the mirror, there can only be either a remote destination or local destination provisioned for a Mirror. (see [below for nested schema](#nestedatt--items--spec--local_destination))
-- `remote_destination` (Attributes) Remote destination for the mirror, there can only be either a remote destination or local destination provisioned for a Mirror. (see [below for nested schema](#nestedatt--items--spec--remote_destination))
-- `sources` (Attributes) Mirror sources. (see [below for nested schema](#nestedatt--items--spec--sources))
-
-<a id="nestedatt--items--spec--local_destination"></a>
-### Nested Schema for `items.spec.local_destination`
-
-Optional:
-
-- `interface` (String) Reference to an Interface resource to send the mirrored traffic to.  This must be on the same Node as the source.
-- `vlan_id` (String) Single value between 0-4094 support, or the special keyword untagged.
-
-
-<a id="nestedatt--items--spec--remote_destination"></a>
-### Nested Schema for `items.spec.remote_destination`
-
-Optional:
-
-- `default_router` (String) Specifies the DefaultRouter to reach the remote destination of the mirror, a Router and DefaultRouter reference cannot be set at the same time.
-- `destination_ip` (String) Remote destination IP address.  When a remote destination is used for the mirror, the destinationIP is mandatory.
-- `encapsulation` (String) Encapsulation to use when sending mirrored traffic to a remote destination.
-- `router` (String) Specifies the Router to reach the remote destination of the mirror, a Router and DefaultRouter reference cannot be set at the same time.
-- `source_ip` (String) Source IP to use when sending a mirror to a remote destination.  When a remote destination us used for the mirror, the sourceIP is mandatory.
-
-
-<a id="nestedatt--items--spec--sources"></a>
-### Nested Schema for `items.spec.sources`
-
-Optional:
-
-- `direction` (String) The direction of the traffic being mirrored.
-- `filters` (Attributes List) IP Filters to select specific traffic to be mirrored.  Traffic matching any of the specified filters will be mirrored. (see [below for nested schema](#nestedatt--items--spec--sources--filters))
-- `interfaces` (Attributes) Reference to an Interface resource to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces. (see [below for nested schema](#nestedatt--items--spec--sources--interfaces))
-- `subinterfaces` (Attributes) Subinterfaces (VLANs, BridgeInterfaces, or Interface subinterfaces) to be mirrored. Traffic from all specified subinterfaces will be mirrored. (see [below for nested schema](#nestedatt--items--spec--sources--subinterfaces))
-
-<a id="nestedatt--items--spec--sources--filters"></a>
-### Nested Schema for `items.spec.sources.filters`
-
-Optional:
-
-- `filter` (Attributes) Emittes an MirrorFilter and uses the filter as a source for the Mirror. (see [below for nested schema](#nestedatt--items--spec--sources--filters--filter))
-- `subinterfaces` (Attributes) Subinterfaces on which to deploy the IPFilter to use as a source for the Mirror. (see [below for nested schema](#nestedatt--items--spec--sources--filters--subinterfaces))
-
-<a id="nestedatt--items--spec--sources--filters--filter"></a>
-### Nested Schema for `items.spec.sources.filters.filter`
-
-Optional:
-
-- `entries` (Attributes List) Specifies the list of filter entries, in order. (see [below for nested schema](#nestedatt--items--spec--sources--filters--filter--entries))
-- `statistics_per_entry` (Boolean) Enable or disable per-entry counters.
-
-<a id="nestedatt--items--spec--sources--filters--filter--entries"></a>
-### Nested Schema for `items.spec.sources.filters.filter.entries`
-
-Optional:
-
-- `description` (String) Description of the FilterEntry.
-- `ip_entry` (Attributes) IP Entry criteria and actions. (see [below for nested schema](#nestedatt--items--spec--sources--filters--filter--entries--ip_entry))
-- `type` (String) Type of the entry which can be IPv4, IPv6 or Auto.
-
-<a id="nestedatt--items--spec--sources--filters--filter--entries--ip_entry"></a>
-### Nested Schema for `items.spec.sources.filters.filter.entries.ip_entry`
-
-Optional:
-
-- `action` (String) An action to take, either 'Accept','Drop', or 'RateLimit'.
-- `destination_port_name` (String) Destination port to match by name.
-- `destination_port_number` (Number) Destination port to match by numerical value.
-- `destination_port_operator` (String) Operator to use when matching destinationPort, either Equals, GreaterOrEquals, or LessOrEquals.
-- `destination_port_range` (String) Range of destination ports to match, in the format n-m, e.g. 100-200,  The start and end of the range must be port numbers.
-- `destination_prefix` (String) Destination prefix to match.
-- `destination_prefix_sets` (List of String) Destination prefix set to match. Mutually exclusive with the Destination Prefix field.
-- `dscp_values` (List of Number) Match DSCP values.
-- `first_fragment` (Boolean) Match the first fragment only.
-- `fragment` (Boolean) Match any fragment.
-- `icmp_codes` (List of Number) Match a specific ICMP code, as a number between 0-255, e.g. 0.
-- `icmp_type_name` (String) Match a specific ICMP type by name, e.g. dest-unreachable.
-- `icmp_type_number` (Number) Match a specific ICMP type by number.
-- `log` (Boolean) Log the matches for this entry.
-- `protocol_name` (String) Match a specific IP protocol name (specified in the type field of the IP header).
-- `protocol_number` (Number) Match a specific IP protocol number (specified in the type field of the IP header).
-- `rate_limit` (Attributes) Rate limit to apply when the action is 'RateLimit'. (see [below for nested schema](#nestedatt--items--spec--sources--filters--filter--entries--ip_entry--rate_limit))
-- `source_port_name` (String) Source port to match by name.
-- `source_port_number` (Number) Source port to match by numerical value.
-- `source_port_operator` (String) Operator to use when matching sourcePort, either Equals, GreaterOrEquals, or LessOrEquals.
-- `source_port_range` (String) Range of source ports to match, in the format n-m, e.g. 100-200.  The start and end of the range must be port numbers.
-- `source_prefix` (String) Source prefix to match.
-- `source_prefix_sets` (List of String) Source prefix set to match. Mutually exclusive with the Source Prefix field.
-- `tcp_flags` (String) Match TCP flags, usable with !, &, | and the flags RST, SYN, and ACK.
-
-<a id="nestedatt--items--spec--sources--filters--filter--entries--ip_entry--rate_limit"></a>
-### Nested Schema for `items.spec.sources.filters.filter.entries.ip_entry.rate_limit`
-
-Optional:
-
-- `burst_size_bytes` (Number) The maximum burst size in bytes.
-- `entry_specific_policer` (Boolean) Controls policer instantiation: false for shared instance, true for per-entry instances
-- `peak_rate_kbps` (Number) The peak rate in kilobytes per second.
-- `scope` (String) Determines how the policer is applied across subinterfaces. Global applies the policer across all subinterfaces, while Subinterface applies it individually to each subinterface.
-
-
-
-
-
-<a id="nestedatt--items--spec--sources--filters--subinterfaces"></a>
-### Nested Schema for `items.spec.sources.filters.subinterfaces`
-
-Optional:
-
-- `bridge_interfaces` (List of String) List of BridgeInterfaces, all traffic from all BridgeInterfaces in the list will be used as sources to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
-- `irb_interfaces` (List of String) List of IRB Interfaces to be used as a source for the Mirror. Supported only with Filter-based mirroring.
-- `subinterfaces` (Attributes List) List of Interfaces and subinterface indices (see [below for nested schema](#nestedatt--items--spec--sources--filters--subinterfaces--subinterfaces))
-- `vlans` (List of String) List of VLAN resources, all subinterfaces attached to the VLAN will be used as sources to be mirrored.  A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
-
-<a id="nestedatt--items--spec--sources--filters--subinterfaces--subinterfaces"></a>
-### Nested Schema for `items.spec.sources.filters.subinterfaces.subinterfaces`
-
-Optional:
-
-- `index` (Number) Index of the sub-interface. This is ignored on a node running SROS.
-- `interface` (String) Reference to an Interface resource, the combination of the Interface and the specified subinterface index will build the subinterface to be used as a source of traffic to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
-- `vlan` (String) Reference to the VLAN resource under which the sub-interface is configured. This is mandatory when the sub-interface is on a node running SROS and ignored for all other node operating systems.
-
-
-
-
-<a id="nestedatt--items--spec--sources--interfaces"></a>
-### Nested Schema for `items.spec.sources.interfaces`
-
-Optional:
-
-- `interface_selectors` (List of String) Select Interfaces using a label selector to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces.  If both a label selector is used and a list of Interfaces is provided, a combination of all selected and provided interfaces will be mirrored.
-- `interfaces` (List of String) List of Interfaces to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces.  If both a label selector is used and a list of Interfaces is provided, a combination of all selected and provided interfaces will be mirrored.
-
-
-<a id="nestedatt--items--spec--sources--subinterfaces"></a>
-### Nested Schema for `items.spec.sources.subinterfaces`
-
-Optional:
-
-- `bridge_interfaces` (List of String) List of BridgeInterfaces, all traffic from all BridgeInterfaces in the list will be used as sources to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
-- `subinterfaces` (Attributes List) List of Interfaces and subinterface indices (see [below for nested schema](#nestedatt--items--spec--sources--subinterfaces--subinterfaces))
-- `vlans` (List of String) List of VLAN resources, all subinterfaces attached to the VLAN will be used as sources to be mirrored.  A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
-
-<a id="nestedatt--items--spec--sources--subinterfaces--subinterfaces"></a>
-### Nested Schema for `items.spec.sources.subinterfaces.subinterfaces`
-
-Optional:
-
-- `index` (Number) Index of the sub-interface. This is ignored on a node running SROS.
-- `interface` (String) Reference to an Interface resource, the combination of the Interface and the specified subinterface index will build the subinterface to be used as a source of traffic to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
-- `vlan` (String) Reference to the VLAN resource under which the sub-interface is configured. This is mandatory when the sub-interface is on a node running SROS and ignored for all other node operating systems.
-
-
-
-
 
 <a id="nestedatt--items--alarms"></a>
 ### Nested Schema for `items.alarms`
@@ -238,6 +73,168 @@ Read-Only:
 - `labels` (Map of String)
 - `name` (String)
 - `namespace` (String)
+
+
+<a id="nestedatt--items--spec"></a>
+### Nested Schema for `items.spec`
+
+Read-Only:
+
+- `local_destination` (Attributes) Local destination for the mirror, there can only be either a remote destination or local destination provisioned for a Mirror. (see [below for nested schema](#nestedatt--items--spec--local_destination))
+- `remote_destination` (Attributes) Remote destination for the mirror, there can only be either a remote destination or local destination provisioned for a Mirror. (see [below for nested schema](#nestedatt--items--spec--remote_destination))
+- `sources` (Attributes) Mirror sources. (see [below for nested schema](#nestedatt--items--spec--sources))
+
+<a id="nestedatt--items--spec--local_destination"></a>
+### Nested Schema for `items.spec.local_destination`
+
+Read-Only:
+
+- `interface` (String) Reference to an Interface resource to send the mirrored traffic to.  This must be on the same Node as the source.
+- `vlan_id` (String) Single value between 0-4094 support, or the special keyword untagged.
+
+
+<a id="nestedatt--items--spec--remote_destination"></a>
+### Nested Schema for `items.spec.remote_destination`
+
+Read-Only:
+
+- `default_router` (String) Specifies the DefaultRouter to reach the remote destination of the mirror, a Router and DefaultRouter reference cannot be set at the same time.
+- `destination_ip` (String) Remote destination IP address.  When a remote destination is used for the mirror, the destinationIP is mandatory.
+- `encapsulation` (String) Encapsulation to use when sending mirrored traffic to a remote destination.
+- `router` (String) Specifies the Router to reach the remote destination of the mirror, a Router and DefaultRouter reference cannot be set at the same time.
+- `source_ip` (String) Source IP to use when sending a mirror to a remote destination.  When a remote destination us used for the mirror, the sourceIP is mandatory.
+
+
+<a id="nestedatt--items--spec--sources"></a>
+### Nested Schema for `items.spec.sources`
+
+Read-Only:
+
+- `direction` (String) The direction of the traffic being mirrored.
+- `filters` (Attributes List) IP Filters to select specific traffic to be mirrored.  Traffic matching any of the specified filters will be mirrored. (see [below for nested schema](#nestedatt--items--spec--sources--filters))
+- `interfaces` (Attributes) Reference to an Interface resource to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces. (see [below for nested schema](#nestedatt--items--spec--sources--interfaces))
+- `subinterfaces` (Attributes) Subinterfaces (VLANs, BridgeInterfaces, or Interface subinterfaces) to be mirrored. Traffic from all specified subinterfaces will be mirrored. (see [below for nested schema](#nestedatt--items--spec--sources--subinterfaces))
+
+<a id="nestedatt--items--spec--sources--filters"></a>
+### Nested Schema for `items.spec.sources.filters`
+
+Read-Only:
+
+- `filter` (Attributes) Emittes an MirrorFilter and uses the filter as a source for the Mirror. (see [below for nested schema](#nestedatt--items--spec--sources--filters--filter))
+- `subinterfaces` (Attributes) Subinterfaces on which to deploy the IPFilter to use as a source for the Mirror. (see [below for nested schema](#nestedatt--items--spec--sources--filters--subinterfaces))
+
+<a id="nestedatt--items--spec--sources--filters--filter"></a>
+### Nested Schema for `items.spec.sources.filters.filter`
+
+Read-Only:
+
+- `entries` (Attributes List) Specifies the list of filter entries, in order. (see [below for nested schema](#nestedatt--items--spec--sources--filters--filter--entries))
+- `statistics_per_entry` (Boolean) Enable or disable per-entry counters.
+
+<a id="nestedatt--items--spec--sources--filters--filter--entries"></a>
+### Nested Schema for `items.spec.sources.filters.filter.entries`
+
+Read-Only:
+
+- `description` (String) Description of the FilterEntry.
+- `ip_entry` (Attributes) IP Entry criteria and actions. (see [below for nested schema](#nestedatt--items--spec--sources--filters--filter--entries--ip_entry))
+- `type` (String) Type of the entry which can be IPv4, IPv6 or Auto.
+
+<a id="nestedatt--items--spec--sources--filters--filter--entries--ip_entry"></a>
+### Nested Schema for `items.spec.sources.filters.filter.entries.ip_entry`
+
+Read-Only:
+
+- `action` (String) An action to take, either 'Accept','Drop', or 'RateLimit'.
+- `destination_port_name` (String) Destination port to match by name.
+- `destination_port_number` (Number) Destination port to match by numerical value.
+- `destination_port_operator` (String) Operator to use when matching destinationPort, either Equals, GreaterOrEquals, or LessOrEquals.
+- `destination_port_range` (String) Range of destination ports to match, in the format n-m, e.g. 100-200,  The start and end of the range must be port numbers.
+- `destination_prefix` (String) Destination prefix to match.
+- `destination_prefix_sets` (List of String) Destination prefix set to match. Mutually exclusive with the Destination Prefix field.
+- `dscp_values` (List of Number) Match DSCP values.
+- `first_fragment` (Boolean) Match the first fragment only.
+- `fragment` (Boolean) Match any fragment.
+- `icmp_codes` (List of Number) Match a specific ICMP code, as a number between 0-255, e.g. 0.
+- `icmp_type_name` (String) Match a specific ICMP type by name, e.g. dest-unreachable.
+- `icmp_type_number` (Number) Match a specific ICMP type by number.
+- `log` (Boolean) Log the matches for this entry.
+- `protocol_name` (String) Match a specific IP protocol name (specified in the type field of the IP header).
+- `protocol_number` (Number) Match a specific IP protocol number (specified in the type field of the IP header).
+- `rate_limit` (Attributes) Rate limit to apply when the action is 'RateLimit'. (see [below for nested schema](#nestedatt--items--spec--sources--filters--filter--entries--ip_entry--rate_limit))
+- `source_port_name` (String) Source port to match by name.
+- `source_port_number` (Number) Source port to match by numerical value.
+- `source_port_operator` (String) Operator to use when matching sourcePort, either Equals, GreaterOrEquals, or LessOrEquals.
+- `source_port_range` (String) Range of source ports to match, in the format n-m, e.g. 100-200.  The start and end of the range must be port numbers.
+- `source_prefix` (String) Source prefix to match.
+- `source_prefix_sets` (List of String) Source prefix set to match. Mutually exclusive with the Source Prefix field.
+- `tcp_flags` (String) Match TCP flags, usable with !, &, | and the flags RST, SYN, and ACK.
+
+<a id="nestedatt--items--spec--sources--filters--filter--entries--ip_entry--rate_limit"></a>
+### Nested Schema for `items.spec.sources.filters.filter.entries.ip_entry.rate_limit`
+
+Read-Only:
+
+- `burst_size_bytes` (Number) The maximum burst size in bytes.
+- `entry_specific_policer` (Boolean) Controls policer instantiation: false for shared instance, true for per-entry instances
+- `peak_rate_kbps` (Number) The peak rate in kilobytes per second.
+- `scope` (String) Determines how the policer is applied across subinterfaces. Global applies the policer across all subinterfaces, while Subinterface applies it individually to each subinterface.
+
+
+
+
+
+<a id="nestedatt--items--spec--sources--filters--subinterfaces"></a>
+### Nested Schema for `items.spec.sources.filters.subinterfaces`
+
+Read-Only:
+
+- `bridge_interfaces` (List of String) List of BridgeInterfaces, all traffic from all BridgeInterfaces in the list will be used as sources to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
+- `irb_interfaces` (List of String) List of IRB Interfaces to be used as a source for the Mirror. Supported only with Filter-based mirroring.
+- `subinterfaces` (Attributes List) List of Interfaces and subinterface indices (see [below for nested schema](#nestedatt--items--spec--sources--filters--subinterfaces--subinterfaces))
+- `vlans` (List of String) List of VLAN resources, all subinterfaces attached to the VLAN will be used as sources to be mirrored.  A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
+
+<a id="nestedatt--items--spec--sources--filters--subinterfaces--subinterfaces"></a>
+### Nested Schema for `items.spec.sources.filters.subinterfaces.subinterfaces`
+
+Read-Only:
+
+- `index` (Number) Index of the sub-interface. This is ignored on a node running SROS.
+- `interface` (String) Reference to an Interface resource, the combination of the Interface and the specified subinterface index will build the subinterface to be used as a source of traffic to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
+- `vlan` (String) Reference to the VLAN resource under which the sub-interface is configured. This is mandatory when the sub-interface is on a node running SROS and ignored for all other node operating systems.
+
+
+
+
+<a id="nestedatt--items--spec--sources--interfaces"></a>
+### Nested Schema for `items.spec.sources.interfaces`
+
+Read-Only:
+
+- `interface_selectors` (List of String) Select Interfaces using a label selector to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces.  If both a label selector is used and a list of Interfaces is provided, a combination of all selected and provided interfaces will be mirrored.
+- `interfaces` (List of String) List of Interfaces to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces.  If both a label selector is used and a list of Interfaces is provided, a combination of all selected and provided interfaces will be mirrored.
+
+
+<a id="nestedatt--items--spec--sources--subinterfaces"></a>
+### Nested Schema for `items.spec.sources.subinterfaces`
+
+Read-Only:
+
+- `bridge_interfaces` (List of String) List of BridgeInterfaces, all traffic from all BridgeInterfaces in the list will be used as sources to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
+- `subinterfaces` (Attributes List) List of Interfaces and subinterface indices (see [below for nested schema](#nestedatt--items--spec--sources--subinterfaces--subinterfaces))
+- `vlans` (List of String) List of VLAN resources, all subinterfaces attached to the VLAN will be used as sources to be mirrored.  A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
+
+<a id="nestedatt--items--spec--sources--subinterfaces--subinterfaces"></a>
+### Nested Schema for `items.spec.sources.subinterfaces.subinterfaces`
+
+Read-Only:
+
+- `index` (Number) Index of the sub-interface. This is ignored on a node running SROS.
+- `interface` (String) Reference to an Interface resource, the combination of the Interface and the specified subinterface index will build the subinterface to be used as a source of traffic to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.
+- `vlan` (String) Reference to the VLAN resource under which the sub-interface is configured. This is mandatory when the sub-interface is on a node running SROS and ignored for all other node operating systems.
+
+
+
 
 
 <a id="nestedatt--items--status"></a>

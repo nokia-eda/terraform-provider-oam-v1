@@ -131,11 +131,13 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"interface": schema.StringAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "Reference to an Interface resource to send the mirrored traffic to.  This must be on the same Node as the source.",
 								MarkdownDescription: "Reference to an Interface resource to send the mirrored traffic to.  This must be on the same Node as the source.",
 							},
 							"vlan_id": schema.StringAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "Single value between 0-4094 support, or the special keyword untagged.",
 								MarkdownDescription: "Single value between 0-4094 support, or the special keyword untagged.",
 							},
@@ -146,6 +148,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
+						Computed:            true,
 						Description:         "Local destination for the mirror, there can only be either a remote destination or local destination provisioned for a Mirror.",
 						MarkdownDescription: "Local destination for the mirror, there can only be either a remote destination or local destination provisioned for a Mirror.",
 					},
@@ -153,16 +156,19 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"default_router": schema.StringAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "Specifies the DefaultRouter to reach the remote destination of the mirror, a Router and DefaultRouter reference cannot be set at the same time.",
 								MarkdownDescription: "Specifies the DefaultRouter to reach the remote destination of the mirror, a Router and DefaultRouter reference cannot be set at the same time.",
 							},
 							"destination_ip": schema.StringAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "Remote destination IP address.  When a remote destination is used for the mirror, the destinationIP is mandatory.",
 								MarkdownDescription: "Remote destination IP address.  When a remote destination is used for the mirror, the destinationIP is mandatory.",
 							},
 							"encapsulation": schema.StringAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "Encapsulation to use when sending mirrored traffic to a remote destination.",
 								MarkdownDescription: "Encapsulation to use when sending mirrored traffic to a remote destination.",
 								Validators: []validator.String{
@@ -174,11 +180,13 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 							},
 							"router": schema.StringAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "Specifies the Router to reach the remote destination of the mirror, a Router and DefaultRouter reference cannot be set at the same time.",
 								MarkdownDescription: "Specifies the Router to reach the remote destination of the mirror, a Router and DefaultRouter reference cannot be set at the same time.",
 							},
 							"source_ip": schema.StringAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "Source IP to use when sending a mirror to a remote destination.  When a remote destination us used for the mirror, the sourceIP is mandatory.",
 								MarkdownDescription: "Source IP to use when sending a mirror to a remote destination.  When a remote destination us used for the mirror, the sourceIP is mandatory.",
 							},
@@ -189,6 +197,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
+						Computed:            true,
 						Description:         "Remote destination for the mirror, there can only be either a remote destination or local destination provisioned for a Mirror.",
 						MarkdownDescription: "Remote destination for the mirror, there can only be either a remote destination or local destination provisioned for a Mirror.",
 					},
@@ -216,6 +225,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 														Attributes: map[string]schema.Attribute{
 															"description": schema.StringAttribute{
 																Optional:            true,
+																Computed:            true,
 																Description:         "Description of the FilterEntry.",
 																MarkdownDescription: "Description of the FilterEntry.",
 															},
@@ -223,6 +233,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																Attributes: map[string]schema.Attribute{
 																	"action": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "An action to take, either 'Accept','Drop', or 'RateLimit'.",
 																		MarkdownDescription: "An action to take, either 'Accept','Drop', or 'RateLimit'.",
 																		Validators: []validator.String{
@@ -235,6 +246,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"destination_port_name": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Destination port to match by name.",
 																		MarkdownDescription: "Destination port to match by name.",
 																		Validators: []validator.String{
@@ -411,6 +423,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"destination_port_number": schema.Int64Attribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Destination port to match by numerical value.",
 																		MarkdownDescription: "Destination port to match by numerical value.",
 																		Validators: []validator.Int64{
@@ -419,6 +432,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"destination_port_operator": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Operator to use when matching destinationPort, either Equals, GreaterOrEquals, or LessOrEquals.",
 																		MarkdownDescription: "Operator to use when matching destinationPort, either Equals, GreaterOrEquals, or LessOrEquals.",
 																		Validators: []validator.String{
@@ -431,17 +445,20 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"destination_port_range": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Range of destination ports to match, in the format n-m, e.g. 100-200,  The start and end of the range must be port numbers.",
 																		MarkdownDescription: "Range of destination ports to match, in the format n-m, e.g. 100-200,  The start and end of the range must be port numbers.",
 																	},
 																	"destination_prefix": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Destination prefix to match.",
 																		MarkdownDescription: "Destination prefix to match.",
 																	},
 																	"destination_prefix_sets": schema.ListAttribute{
 																		ElementType:         types.StringType,
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Destination prefix set to match. Mutually exclusive with the Destination Prefix field.",
 																		MarkdownDescription: "Destination prefix set to match. Mutually exclusive with the Destination Prefix field.",
 																		Validators: []validator.List{
@@ -451,6 +468,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	"dscp_values": schema.ListAttribute{
 																		ElementType:         types.Int64Type,
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Match DSCP values.",
 																		MarkdownDescription: "Match DSCP values.",
 																		Validators: []validator.List{
@@ -459,17 +477,20 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"first_fragment": schema.BoolAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Match the first fragment only.",
 																		MarkdownDescription: "Match the first fragment only.",
 																	},
 																	"fragment": schema.BoolAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Match any fragment.",
 																		MarkdownDescription: "Match any fragment.",
 																	},
 																	"icmp_codes": schema.ListAttribute{
 																		ElementType:         types.Int64Type,
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Match a specific ICMP code, as a number between 0-255, e.g. 0.",
 																		MarkdownDescription: "Match a specific ICMP code, as a number between 0-255, e.g. 0.",
 																		Validators: []validator.List{
@@ -478,6 +499,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"icmp_type_name": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Match a specific ICMP type by name, e.g. dest-unreachable.",
 																		MarkdownDescription: "Match a specific ICMP type by name, e.g. dest-unreachable.",
 																		Validators: []validator.String{
@@ -512,6 +534,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"icmp_type_number": schema.Int64Attribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Match a specific ICMP type by number.",
 																		MarkdownDescription: "Match a specific ICMP type by number.",
 																		Validators: []validator.Int64{
@@ -520,11 +543,13 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"log": schema.BoolAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Log the matches for this entry.",
 																		MarkdownDescription: "Log the matches for this entry.",
 																	},
 																	"protocol_name": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Match a specific IP protocol name (specified in the type field of the IP header).",
 																		MarkdownDescription: "Match a specific IP protocol name (specified in the type field of the IP header).",
 																		Validators: []validator.String{
@@ -561,6 +586,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"protocol_number": schema.Int64Attribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Match a specific IP protocol number (specified in the type field of the IP header).",
 																		MarkdownDescription: "Match a specific IP protocol number (specified in the type field of the IP header).",
 																		Validators: []validator.Int64{
@@ -571,6 +597,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																		Attributes: map[string]schema.Attribute{
 																			"burst_size_bytes": schema.Int64Attribute{
 																				Optional:            true,
+																				Computed:            true,
 																				Description:         "The maximum burst size in bytes.",
 																				MarkdownDescription: "The maximum burst size in bytes.",
 																			},
@@ -583,6 +610,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																			},
 																			"peak_rate_kbps": schema.Int64Attribute{
 																				Optional:            true,
+																				Computed:            true,
 																				Description:         "The peak rate in kilobytes per second.",
 																				MarkdownDescription: "The peak rate in kilobytes per second.",
 																			},
@@ -606,11 +634,13 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																			},
 																		},
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Rate limit to apply when the action is 'RateLimit'.",
 																		MarkdownDescription: "Rate limit to apply when the action is 'RateLimit'.",
 																	},
 																	"source_port_name": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Source port to match by name.",
 																		MarkdownDescription: "Source port to match by name.",
 																		Validators: []validator.String{
@@ -787,6 +817,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"source_port_number": schema.Int64Attribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Source port to match by numerical value.",
 																		MarkdownDescription: "Source port to match by numerical value.",
 																		Validators: []validator.Int64{
@@ -795,6 +826,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"source_port_operator": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Operator to use when matching sourcePort, either Equals, GreaterOrEquals, or LessOrEquals.",
 																		MarkdownDescription: "Operator to use when matching sourcePort, either Equals, GreaterOrEquals, or LessOrEquals.",
 																		Validators: []validator.String{
@@ -807,17 +839,20 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"source_port_range": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Range of source ports to match, in the format n-m, e.g. 100-200.  The start and end of the range must be port numbers.",
 																		MarkdownDescription: "Range of source ports to match, in the format n-m, e.g. 100-200.  The start and end of the range must be port numbers.",
 																	},
 																	"source_prefix": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Source prefix to match.",
 																		MarkdownDescription: "Source prefix to match.",
 																	},
 																	"source_prefix_sets": schema.ListAttribute{
 																		ElementType:         types.StringType,
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Source prefix set to match. Mutually exclusive with the Source Prefix field.",
 																		MarkdownDescription: "Source prefix set to match. Mutually exclusive with the Source Prefix field.",
 																		Validators: []validator.List{
@@ -826,6 +861,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																	"tcp_flags": schema.StringAttribute{
 																		Optional:            true,
+																		Computed:            true,
 																		Description:         "Match TCP flags, usable with !, &, | and the flags RST, SYN, and ACK.",
 																		MarkdownDescription: "Match TCP flags, usable with !, &, | and the flags RST, SYN, and ACK.",
 																	},
@@ -836,6 +872,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 																	},
 																},
 																Optional:            true,
+																Computed:            true,
 																Description:         "IP Entry criteria and actions.",
 																MarkdownDescription: "IP Entry criteria and actions.",
 															},
@@ -866,6 +903,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"statistics_per_entry": schema.BoolAttribute{
 													Optional:            true,
+													Computed:            true,
 													Description:         "Enable or disable per-entry counters.",
 													MarkdownDescription: "Enable or disable per-entry counters.",
 												},
@@ -876,6 +914,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 												},
 											},
 											Optional:            true,
+											Computed:            true,
 											Description:         "Emittes an MirrorFilter and uses the filter as a source for the Mirror.",
 											MarkdownDescription: "Emittes an MirrorFilter and uses the filter as a source for the Mirror.",
 										},
@@ -884,12 +923,14 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 												"bridge_interfaces": schema.ListAttribute{
 													ElementType:         types.StringType,
 													Optional:            true,
+													Computed:            true,
 													Description:         "List of BridgeInterfaces, all traffic from all BridgeInterfaces in the list will be used as sources to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.",
 													MarkdownDescription: "List of BridgeInterfaces, all traffic from all BridgeInterfaces in the list will be used as sources to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.",
 												},
 												"irb_interfaces": schema.ListAttribute{
 													ElementType:         types.StringType,
 													Optional:            true,
+													Computed:            true,
 													Description:         "List of IRB Interfaces to be used as a source for the Mirror. Supported only with Filter-based mirroring.",
 													MarkdownDescription: "List of IRB Interfaces to be used as a source for the Mirror. Supported only with Filter-based mirroring.",
 												},
@@ -898,6 +939,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 														Attributes: map[string]schema.Attribute{
 															"index": schema.Int64Attribute{
 																Optional:            true,
+																Computed:            true,
 																Description:         "Index of the sub-interface. This is ignored on a node running SROS.",
 																MarkdownDescription: "Index of the sub-interface. This is ignored on a node running SROS.",
 															},
@@ -908,6 +950,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 															},
 															"vlan": schema.StringAttribute{
 																Optional:            true,
+																Computed:            true,
 																Description:         "Reference to the VLAN resource under which the sub-interface is configured. This is mandatory when the sub-interface is on a node running SROS and ignored for all other node operating systems.",
 																MarkdownDescription: "Reference to the VLAN resource under which the sub-interface is configured. This is mandatory when the sub-interface is on a node running SROS and ignored for all other node operating systems.",
 															},
@@ -919,12 +962,14 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 														},
 													},
 													Optional:            true,
+													Computed:            true,
 													Description:         "List of Interfaces and subinterface indices",
 													MarkdownDescription: "List of Interfaces and subinterface indices",
 												},
 												"vlans": schema.ListAttribute{
 													ElementType:         types.StringType,
 													Optional:            true,
+													Computed:            true,
 													Description:         "List of VLAN resources, all subinterfaces attached to the VLAN will be used as sources to be mirrored.  A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.",
 													MarkdownDescription: "List of VLAN resources, all subinterfaces attached to the VLAN will be used as sources to be mirrored.  A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.",
 												},
@@ -935,6 +980,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 												},
 											},
 											Optional:            true,
+											Computed:            true,
 											Description:         "Subinterfaces on which to deploy the IPFilter to use as a source for the Mirror.",
 											MarkdownDescription: "Subinterfaces on which to deploy the IPFilter to use as a source for the Mirror.",
 										},
@@ -946,6 +992,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional:            true,
+								Computed:            true,
 								Description:         "IP Filters to select specific traffic to be mirrored.  Traffic matching any of the specified filters will be mirrored.",
 								MarkdownDescription: "IP Filters to select specific traffic to be mirrored.  Traffic matching any of the specified filters will be mirrored.",
 							},
@@ -954,12 +1001,14 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 									"interface_selectors": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
+										Computed:            true,
 										Description:         "Select Interfaces using a label selector to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces.  If both a label selector is used and a list of Interfaces is provided, a combination of all selected and provided interfaces will be mirrored.",
 										MarkdownDescription: "Select Interfaces using a label selector to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces.  If both a label selector is used and a list of Interfaces is provided, a combination of all selected and provided interfaces will be mirrored.",
 									},
 									"interfaces": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
+										Computed:            true,
 										Description:         "List of Interfaces to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces.  If both a label selector is used and a list of Interfaces is provided, a combination of all selected and provided interfaces will be mirrored.",
 										MarkdownDescription: "List of Interfaces to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces.  If both a label selector is used and a list of Interfaces is provided, a combination of all selected and provided interfaces will be mirrored.",
 									},
@@ -970,6 +1019,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional:            true,
+								Computed:            true,
 								Description:         "Reference to an Interface resource to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces.",
 								MarkdownDescription: "Reference to an Interface resource to be mirrored.  Traffic from the entire Interface will be mirrored for any selected Interfaces.",
 							},
@@ -978,6 +1028,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 									"bridge_interfaces": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
+										Computed:            true,
 										Description:         "List of BridgeInterfaces, all traffic from all BridgeInterfaces in the list will be used as sources to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.",
 										MarkdownDescription: "List of BridgeInterfaces, all traffic from all BridgeInterfaces in the list will be used as sources to be mirrored. A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.",
 									},
@@ -986,6 +1037,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 											Attributes: map[string]schema.Attribute{
 												"index": schema.Int64Attribute{
 													Optional:            true,
+													Computed:            true,
 													Description:         "Index of the sub-interface. This is ignored on a node running SROS.",
 													MarkdownDescription: "Index of the sub-interface. This is ignored on a node running SROS.",
 												},
@@ -996,6 +1048,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 												},
 												"vlan": schema.StringAttribute{
 													Optional:            true,
+													Computed:            true,
 													Description:         "Reference to the VLAN resource under which the sub-interface is configured. This is mandatory when the sub-interface is on a node running SROS and ignored for all other node operating systems.",
 													MarkdownDescription: "Reference to the VLAN resource under which the sub-interface is configured. This is mandatory when the sub-interface is on a node running SROS and ignored for all other node operating systems.",
 												},
@@ -1007,12 +1060,14 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 											},
 										},
 										Optional:            true,
+										Computed:            true,
 										Description:         "List of Interfaces and subinterface indices",
 										MarkdownDescription: "List of Interfaces and subinterface indices",
 									},
 									"vlans": schema.ListAttribute{
 										ElementType:         types.StringType,
 										Optional:            true,
+										Computed:            true,
 										Description:         "List of VLAN resources, all subinterfaces attached to the VLAN will be used as sources to be mirrored.  A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.",
 										MarkdownDescription: "List of VLAN resources, all subinterfaces attached to the VLAN will be used as sources to be mirrored.  A combination of VLANs, BridgeInterfaces and subinterfaces can be configured as sources together.",
 									},
@@ -1023,6 +1078,7 @@ func MirrorResourceSchema(ctx context.Context) schema.Schema {
 									},
 								},
 								Optional:            true,
+								Computed:            true,
 								Description:         "Subinterfaces (VLANs, BridgeInterfaces, or Interface subinterfaces) to be mirrored. Traffic from all specified subinterfaces will be mirrored.",
 								MarkdownDescription: "Subinterfaces (VLANs, BridgeInterfaces, or Interface subinterfaces) to be mirrored. Traffic from all specified subinterfaces will be mirrored.",
 							},

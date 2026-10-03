@@ -52,6 +52,16 @@ data_sources:
       path: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/thresholds
       method: GET
 
+  trace_route:
+    read:
+      path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}
+      method: GET
+
+  trace_route_list:
+    read:
+      path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes
+      method: GET
+
   workflow_get_inputs_resp_elem:
     read:
       path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/pings/{name}/_input
@@ -106,4 +116,15 @@ resources:
       method: PUT
     delete:
       path: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/thresholds/{name}
+      method: DELETE
+
+  trace_route:
+    create:
+      path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes
+      method: POST
+    read:
+      path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}
+      method: GET
+    delete:
+      path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}
       method: DELETE

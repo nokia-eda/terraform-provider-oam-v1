@@ -105,13 +105,13 @@ func TechSupportListDataSourceSchema(ctx context.Context) schema.Schema {
 							Attributes: map[string]schema.Attribute{
 								"node_selectors": schema.ListAttribute{
 									ElementType:         types.StringType,
-									Optional:            true,
+									Computed:            true,
 									Description:         "List of node selectors to select nodes generate technical support packages for.\nThis matches labels on TopoNode resources.\nIf no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.\nThis is a list of label expressions, e.g. [\"eda.nokia.com/role=leaf\"].",
 									MarkdownDescription: "List of node selectors to select nodes generate technical support packages for.\nThis matches labels on TopoNode resources.\nIf no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.\nThis is a list of label expressions, e.g. [\"eda.nokia.com/role=leaf\"].",
 								},
 								"nodes": schema.ListAttribute{
 									ElementType:         types.StringType,
-									Optional:            true,
+									Computed:            true,
 									Description:         "List of nodes to generate and collect technical support packages for.",
 									MarkdownDescription: "List of nodes to generate and collect technical support packages for.",
 								},
@@ -121,7 +121,7 @@ func TechSupportListDataSourceSchema(ctx context.Context) schema.Schema {
 									AttrTypes: SpecValue{}.AttributeTypes(ctx),
 								},
 							},
-							Optional:            true,
+							Computed:            true,
 							Description:         "Generate technical support packages for a node or set of nodes - should only do this if explicitly requested by the user.",
 							MarkdownDescription: "Generate technical support packages for a node or set of nodes - should only do this if explicitly requested by the user.",
 						},

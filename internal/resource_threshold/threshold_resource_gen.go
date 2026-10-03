@@ -130,16 +130,19 @@ func ThresholdResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"description": schema.StringAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "The description of the alarm.",
 								MarkdownDescription: "The description of the alarm.",
 							},
 							"probable_cause": schema.StringAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "The probable cause of the alarm.",
 								MarkdownDescription: "The probable cause of the alarm.",
 							},
 							"remedial_action": schema.StringAttribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "The remedial action for the alarm.",
 								MarkdownDescription: "The remedial action for the alarm.",
 							},
@@ -150,6 +153,7 @@ func ThresholdResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
+						Computed:            true,
 						Description:         "Alarm details for this threshold.",
 						MarkdownDescription: "Alarm details for this threshold.",
 					},
@@ -206,6 +210,7 @@ func ThresholdResourceSchema(ctx context.Context) schema.Schema {
 							},
 						},
 						Optional:            true,
+						Computed:            true,
 						Description:         "Manually assign a resource to associate with this threshold. This overrides the destination resource in alarms raised as a result of threshold breaches.\nBy default a resource will be raised against the threshold resource itself.",
 						MarkdownDescription: "Manually assign a resource to associate with this threshold. This overrides the destination resource in alarms raised as a result of threshold breaches.\nBy default a resource will be raised against the threshold resource itself.",
 					},
@@ -213,6 +218,7 @@ func ThresholdResourceSchema(ctx context.Context) schema.Schema {
 						Attributes: map[string]schema.Attribute{
 							"critical_threshold": schema.Int64Attribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "The minimum average utilization over the last 1 minute to trigger a critical alarm.\nThis value must be greater than the majorThreshold.",
 								MarkdownDescription: "The minimum average utilization over the last 1 minute to trigger a critical alarm.\nThis value must be greater than the majorThreshold.",
 							},
@@ -238,16 +244,19 @@ func ThresholdResourceSchema(ctx context.Context) schema.Schema {
 							},
 							"major_threshold": schema.Int64Attribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "The minimum average utilization over the last 1 minute to trigger a major alarm.\nThis value must be greater than the minorThreshold.",
 								MarkdownDescription: "The minimum average utilization over the last 1 minute to trigger a major alarm.\nThis value must be greater than the minorThreshold.",
 							},
 							"minor_threshold": schema.Int64Attribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "The minimum average utilization over the last 1 minute to trigger a minor alarm.",
 								MarkdownDescription: "The minimum average utilization over the last 1 minute to trigger a minor alarm.",
 							},
 							"warning_threshold": schema.Int64Attribute{
 								Optional:            true,
+								Computed:            true,
 								Description:         "The minimum average utilization over the last 1 minute to trigger a warning alarm.",
 								MarkdownDescription: "The minimum average utilization over the last 1 minute to trigger a warning alarm.",
 							},

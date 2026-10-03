@@ -35,11 +35,6 @@ description: |-
 <a id="nestedatt--items"></a>
 ### Nested Schema for `items`
 
-Optional:
-
-- `spec` (Attributes) A Threshold allows you to monitor a field in EDB and trigger severity-correct alarms based on the value of that field.
-By using EDB as a source you are able to trigger thresholds on any published field from a TopoNode, or any other EDB source. (see [below for nested schema](#nestedatt--items--spec))
-
 Read-Only:
 
 - `alarms` (Attributes) (see [below for nested schema](#nestedatt--items--alarms))
@@ -47,62 +42,9 @@ Read-Only:
 - `deviations` (Attributes) (see [below for nested schema](#nestedatt--items--deviations))
 - `kind` (String)
 - `metadata` (Attributes) (see [below for nested schema](#nestedatt--items--metadata))
+- `spec` (Attributes) A Threshold allows you to monitor a field in EDB and trigger severity-correct alarms based on the value of that field.
+By using EDB as a source you are able to trigger thresholds on any published field from a TopoNode, or any other EDB source. (see [below for nested schema](#nestedatt--items--spec))
 - `status` (Attributes) ThresholdStatus defines the observed state of Threshold (see [below for nested schema](#nestedatt--items--status))
-
-<a id="nestedatt--items--spec"></a>
-### Nested Schema for `items.spec`
-
-Optional:
-
-- `alarm` (Attributes) Alarm details for this threshold. (see [below for nested schema](#nestedatt--items--spec--alarm))
-- `enabled` (Boolean) Enable or disable this threshold.
-- `field` (String) Field to monitor for this threshold, for example `utilization`. Only a single field may be monitored per threshold. This field must be present in the table specified by the path.
-The field specified should be an integer field that can be compared to the specified thresholds. Nested fields are supported, for example `utilization.value` would monitor the value field inside of the nested object with key `utilization`.
-- `generate_overlay` (Boolean) Enable or disable generation of a topology overlay for this threshold.
-This functionality is only supported for paths in the .namespace.node table.
-- `name` (String) The name of this threshold. This name will be used to generate the alarm name, so should follow CamelCase conventions, e.g. VolumeUtilization.
-- `path` (String) Path to monitor for this threshold. This should be the full EDB path (without keys) to the table containing the field you wish to trigger a threshold on.
-For example, to monitor the utilization field of the component volume table, you would use `.namespace.node.normal.components_eda_nokia_com.v1.controlmodule.volume`, and set field to `utilization`.
-- `resource` (Attributes) Manually assign a resource to associate with this threshold. This overrides the destination resource in alarms raised as a result of threshold breaches.
-By default a resource will be raised against the threshold resource itself. (see [below for nested schema](#nestedatt--items--spec--resource))
-- `thresholds` (Attributes) Severities and their associated values. (see [below for nested schema](#nestedatt--items--spec--thresholds))
-
-<a id="nestedatt--items--spec--alarm"></a>
-### Nested Schema for `items.spec.alarm`
-
-Optional:
-
-- `description` (String) The description of the alarm.
-- `probable_cause` (String) The probable cause of the alarm.
-- `remedial_action` (String) The remedial action for the alarm.
-
-
-<a id="nestedatt--items--spec--resource"></a>
-### Nested Schema for `items.spec.resource`
-
-Optional:
-
-- `group` (String) The group of the resource raise alarms against, should any thresholds be breached.
-- `kind` (String) The kind of resource to raise alarms against, should any thresholds be breached.
-- `name` (String) The name of the resource to raise alarms against, should any thresholds be breached.
-
-
-<a id="nestedatt--items--spec--thresholds"></a>
-### Nested Schema for `items.spec.thresholds`
-
-Optional:
-
-- `critical_threshold` (Number) The minimum average utilization over the last 1 minute to trigger a critical alarm.
-This value must be greater than the majorThreshold.
-- `delta` (Number) The delta value for clearing a threshold.
-For example, with a critical threshold of 90, direction of Rising and a delta of 5, the critical alarm will clear when the utilization drops below 85.
-- `direction` (String) Direction of the threshold: "Rising" or "Falling".
-- `major_threshold` (Number) The minimum average utilization over the last 1 minute to trigger a major alarm.
-This value must be greater than the minorThreshold.
-- `minor_threshold` (Number) The minimum average utilization over the last 1 minute to trigger a minor alarm.
-- `warning_threshold` (Number) The minimum average utilization over the last 1 minute to trigger a warning alarm.
-
-
 
 <a id="nestedatt--items--alarms"></a>
 ### Nested Schema for `items.alarms`
@@ -132,6 +74,61 @@ Read-Only:
 - `labels` (Map of String)
 - `name` (String)
 - `namespace` (String)
+
+
+<a id="nestedatt--items--spec"></a>
+### Nested Schema for `items.spec`
+
+Read-Only:
+
+- `alarm` (Attributes) Alarm details for this threshold. (see [below for nested schema](#nestedatt--items--spec--alarm))
+- `enabled` (Boolean) Enable or disable this threshold.
+- `field` (String) Field to monitor for this threshold, for example `utilization`. Only a single field may be monitored per threshold. This field must be present in the table specified by the path.
+The field specified should be an integer field that can be compared to the specified thresholds. Nested fields are supported, for example `utilization.value` would monitor the value field inside of the nested object with key `utilization`.
+- `generate_overlay` (Boolean) Enable or disable generation of a topology overlay for this threshold.
+This functionality is only supported for paths in the .namespace.node table.
+- `name` (String) The name of this threshold. This name will be used to generate the alarm name, so should follow CamelCase conventions, e.g. VolumeUtilization.
+- `path` (String) Path to monitor for this threshold. This should be the full EDB path (without keys) to the table containing the field you wish to trigger a threshold on.
+For example, to monitor the utilization field of the component volume table, you would use `.namespace.node.normal.components_eda_nokia_com.v1.controlmodule.volume`, and set field to `utilization`.
+- `resource` (Attributes) Manually assign a resource to associate with this threshold. This overrides the destination resource in alarms raised as a result of threshold breaches.
+By default a resource will be raised against the threshold resource itself. (see [below for nested schema](#nestedatt--items--spec--resource))
+- `thresholds` (Attributes) Severities and their associated values. (see [below for nested schema](#nestedatt--items--spec--thresholds))
+
+<a id="nestedatt--items--spec--alarm"></a>
+### Nested Schema for `items.spec.alarm`
+
+Read-Only:
+
+- `description` (String) The description of the alarm.
+- `probable_cause` (String) The probable cause of the alarm.
+- `remedial_action` (String) The remedial action for the alarm.
+
+
+<a id="nestedatt--items--spec--resource"></a>
+### Nested Schema for `items.spec.resource`
+
+Read-Only:
+
+- `group` (String) The group of the resource raise alarms against, should any thresholds be breached.
+- `kind` (String) The kind of resource to raise alarms against, should any thresholds be breached.
+- `name` (String) The name of the resource to raise alarms against, should any thresholds be breached.
+
+
+<a id="nestedatt--items--spec--thresholds"></a>
+### Nested Schema for `items.spec.thresholds`
+
+Read-Only:
+
+- `critical_threshold` (Number) The minimum average utilization over the last 1 minute to trigger a critical alarm.
+This value must be greater than the majorThreshold.
+- `delta` (Number) The delta value for clearing a threshold.
+For example, with a critical threshold of 90, direction of Rising and a delta of 5, the critical alarm will clear when the utilization drops below 85.
+- `direction` (String) Direction of the threshold: "Rising" or "Falling".
+- `major_threshold` (Number) The minimum average utilization over the last 1 minute to trigger a major alarm.
+This value must be greater than the minorThreshold.
+- `minor_threshold` (Number) The minimum average utilization over the last 1 minute to trigger a minor alarm.
+- `warning_threshold` (Number) The minimum average utilization over the last 1 minute to trigger a warning alarm.
+
 
 
 <a id="nestedatt--items--status"></a>

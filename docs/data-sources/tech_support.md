@@ -20,10 +20,6 @@ description: |-
 - `name` (String) name of the TechSupport
 - `namespace` (String) the namespace scope in which to operate
 
-### Optional
-
-- `spec` (Attributes) Generate technical support packages for a node or set of nodes - should only do this if explicitly requested by the user. (see [below for nested schema](#nestedatt--spec))
-
 ### Read-Only
 
 - `alarms` (Attributes) (see [below for nested schema](#nestedatt--alarms))
@@ -31,19 +27,8 @@ description: |-
 - `deviations` (Attributes) (see [below for nested schema](#nestedatt--deviations))
 - `kind` (String)
 - `metadata` (Attributes) (see [below for nested schema](#nestedatt--metadata))
+- `spec` (Attributes) Generate technical support packages for a node or set of nodes - should only do this if explicitly requested by the user. (see [below for nested schema](#nestedatt--spec))
 - `status` (Attributes) Result of the technical support package generation. (see [below for nested schema](#nestedatt--status))
-
-<a id="nestedatt--spec"></a>
-### Nested Schema for `spec`
-
-Optional:
-
-- `node_selectors` (List of String) List of node selectors to select nodes generate technical support packages for.
-This matches labels on TopoNode resources.
-If no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.
-This is a list of label expressions, e.g. ["eda.nokia.com/role=leaf"].
-- `nodes` (List of String) List of nodes to generate and collect technical support packages for.
-
 
 <a id="nestedatt--alarms"></a>
 ### Nested Schema for `alarms`
@@ -73,6 +58,18 @@ Read-Only:
 - `labels` (Map of String)
 - `name` (String)
 - `namespace` (String)
+
+
+<a id="nestedatt--spec"></a>
+### Nested Schema for `spec`
+
+Read-Only:
+
+- `node_selectors` (List of String) List of node selectors to select nodes generate technical support packages for.
+This matches labels on TopoNode resources.
+If no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.
+This is a list of label expressions, e.g. ["eda.nokia.com/role=leaf"].
+- `nodes` (List of String) List of nodes to generate and collect technical support packages for.
 
 
 <a id="nestedatt--status"></a>

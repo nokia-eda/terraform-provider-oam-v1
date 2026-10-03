@@ -46,5 +46,16 @@ Path,Method,Schema,Model Name,Supported,Datasource,Resource
 /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/techsupports/{name}/_input,PUT,WorkflowInputData,,false,false,false
 /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/techsupports/{name}/_logs,GET,,,false,false,false
 /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/techsupports/{name}/_terminate,PUT,,,false,false,false
+/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes,GET,com.nokia.eda.oam.v1.TraceRouteList,trace_route_list,true,true,false
+/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes,POST,com.nokia.eda.oam.v1.TraceRoute,trace_route,true,false,true
+/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name},DELETE,,trace_route,true,false,true
+/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name},GET,com.nokia.eda.oam.v1.TraceRoute,trace_route,true,true,true
+/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_artifacts,GET,,,false,false,false
+/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_artifacts/{artifact},GET,,,false,false,false
+/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_input,GET,WorkflowGetInputsRespElem,,false,false,false
+/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_input,PUT,WorkflowInputData,,false,false,false
+/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_logs,GET,,,false,false,false
+/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_terminate,PUT,,,false,false,false
 /workflows/v1/oam.eda.nokia.com/v1/pings,GET,com.nokia.eda.oam.v1.PingList,,false,false,false
 /workflows/v1/oam.eda.nokia.com/v1/techsupports,GET,com.nokia.eda.oam.v1.TechSupportList,,false,false,false
+/workflows/v1/oam.eda.nokia.com/v1/traceroutes,GET,com.nokia.eda.oam.v1.TraceRouteList,,false,false,false

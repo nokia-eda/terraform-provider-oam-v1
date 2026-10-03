@@ -96,34 +96,34 @@ func PingDataSourceSchema(ctx context.Context) schema.Schema {
 			"spec": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"address": schema.StringAttribute{
-						Optional:            true,
+						Computed:            true,
 						Description:         "Address to ping.\nThis is a single IP address (IPv4 or IPv6) or a hostname that resolves to an IP address.",
 						MarkdownDescription: "Address to ping.\nThis is a single IP address (IPv4 or IPv6) or a hostname that resolves to an IP address.",
 					},
 					"count": schema.Int64Attribute{
-						Optional:            true,
+						Computed:            true,
 						Description:         "Count is the number of pings to send.",
 						MarkdownDescription: "Count is the number of pings to send.",
 					},
 					"network_instance": schema.StringAttribute{
-						Optional:            true,
+						Computed:            true,
 						Description:         "The network instance to use for the ping. This is the named network instance on the node, typically \"default\" or some other base name.\nIf not specified, the default network instance will be used, which is typically the main/default/global network interface on the node.",
 						MarkdownDescription: "The network instance to use for the ping. This is the named network instance on the node, typically \"default\" or some other base name.\nIf not specified, the default network instance will be used, which is typically the main/default/global network interface on the node.",
 					},
 					"node_selectors": schema.ListAttribute{
 						ElementType:         types.StringType,
-						Optional:            true,
+						Computed:            true,
 						Description:         "List of selectors to select nodes to perform pings on.\nThis matches labels on TopoNode resources, including those TopoNodes in the list of nodes that pings will be performed on.\nIf no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.",
 						MarkdownDescription: "List of selectors to select nodes to perform pings on.\nThis matches labels on TopoNode resources, including those TopoNodes in the list of nodes that pings will be performed on.\nIf no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.",
 					},
 					"nodes": schema.ListAttribute{
 						ElementType:         types.StringType,
-						Optional:            true,
+						Computed:            true,
 						Description:         "List of nodes to perform pings from.\nItems in the list should be the names of the nodes, where each node will have a ping performed on it.\nIf no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.",
 						MarkdownDescription: "List of nodes to perform pings from.\nItems in the list should be the names of the nodes, where each node will have a ping performed on it.\nIf no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.",
 					},
 					"timeout_seconds": schema.Int64Attribute{
-						Optional:            true,
+						Computed:            true,
 						Description:         "TimeoutSeconds is the timeout for the ping in seconds.",
 						MarkdownDescription: "TimeoutSeconds is the timeout for the ping in seconds.",
 					},
@@ -133,7 +133,7 @@ func PingDataSourceSchema(ctx context.Context) schema.Schema {
 						AttrTypes: SpecValue{}.AttributeTypes(ctx),
 					},
 				},
-				Optional:            true,
+				Computed:            true,
 				Description:         "Ping allows a ping to be initiated to a specific address on node/set of nodes.",
 				MarkdownDescription: "Ping allows a ping to be initiated to a specific address on node/set of nodes.",
 			},
@@ -224,6 +224,11 @@ func PingDataSourceSchema(ctx context.Context) schema.Schema {
 						Computed:            true,
 						Description:         "Result is the overall result of the ping operation.\nIt can be one of the following values:\n- \"Success\": All pings were successful.\n- \"Failed\": No pings were successful.\n- \"PartialSuccess\": Some pings were successful, but not all.",
 						MarkdownDescription: "Result is the overall result of the ping operation.\nIt can be one of the following values:\n- \"Success\": All pings were successful.\n- \"Failed\": No pings were successful.\n- \"PartialSuccess\": Some pings were successful, but not all.",
+					},
+					"summary": schema.StringAttribute{
+						Computed:            true,
+						Description:         "Summary is the result summary of the ping operation.",
+						MarkdownDescription: "Summary is the result summary of the ping operation.",
 					},
 				},
 				CustomType: StatusType{
@@ -2341,6 +2346,24 @@ func (t StatusType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 			fmt.Sprintf(`result expected to be basetypes.StringValue, was: %T`, resultAttribute))
 	}
 
+	summaryAttribute, ok := attributes["summary"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`summary is missing from object`)
+
+		return nil, diags
+	}
+
+	summaryVal, ok := summaryAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`summary expected to be basetypes.StringValue, was: %T`, summaryAttribute))
+	}
+
 	if diags.HasError() {
 		return nil, diags
 	}
@@ -2348,6 +2371,7 @@ func (t StatusType) ValueFromObject(ctx context.Context, in basetypes.ObjectValu
 	return StatusValue{
 		Details: detailsVal,
 		Result:  resultVal,
+		Summary: summaryVal,
 		state:   attr.ValueStateKnown,
 	}, diags
 }
@@ -2451,6 +2475,24 @@ func NewStatusValue(attributeTypes map[string]attr.Type, attributes map[string]a
 			fmt.Sprintf(`result expected to be basetypes.StringValue, was: %T`, resultAttribute))
 	}
 
+	summaryAttribute, ok := attributes["summary"]
+
+	if !ok {
+		diags.AddError(
+			"Attribute Missing",
+			`summary is missing from object`)
+
+		return NewStatusValueUnknown(), diags
+	}
+
+	summaryVal, ok := summaryAttribute.(basetypes.StringValue)
+
+	if !ok {
+		diags.AddError(
+			"Attribute Wrong Type",
+			fmt.Sprintf(`summary expected to be basetypes.StringValue, was: %T`, summaryAttribute))
+	}
+
 	if diags.HasError() {
 		return NewStatusValueUnknown(), diags
 	}
@@ -2458,6 +2500,7 @@ func NewStatusValue(attributeTypes map[string]attr.Type, attributes map[string]a
 	return StatusValue{
 		Details: detailsVal,
 		Result:  resultVal,
+		Summary: summaryVal,
 		state:   attr.ValueStateKnown,
 	}, diags
 }
@@ -2532,11 +2575,12 @@ var _ basetypes.ObjectValuable = StatusValue{}
 type StatusValue struct {
 	Details basetypes.ListValue   `tfsdk:"details"`
 	Result  basetypes.StringValue `tfsdk:"result"`
+	Summary basetypes.StringValue `tfsdk:"summary"`
 	state   attr.ValueState
 }
 
 func (v StatusValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error) {
-	attrTypes := make(map[string]tftypes.Type, 2)
+	attrTypes := make(map[string]tftypes.Type, 3)
 
 	var val tftypes.Value
 	var err error
@@ -2545,12 +2589,13 @@ func (v StatusValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 		ElemType: DetailsValue{}.Type(ctx),
 	}.TerraformType(ctx)
 	attrTypes["result"] = basetypes.StringType{}.TerraformType(ctx)
+	attrTypes["summary"] = basetypes.StringType{}.TerraformType(ctx)
 
 	objectType := tftypes.Object{AttributeTypes: attrTypes}
 
 	switch v.state {
 	case attr.ValueStateKnown:
-		vals := make(map[string]tftypes.Value, 2)
+		vals := make(map[string]tftypes.Value, 3)
 
 		val, err = v.Details.ToTerraformValue(ctx)
 
@@ -2567,6 +2612,14 @@ func (v StatusValue) ToTerraformValue(ctx context.Context) (tftypes.Value, error
 		}
 
 		vals["result"] = val
+
+		val, err = v.Summary.ToTerraformValue(ctx)
+
+		if err != nil {
+			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
+		}
+
+		vals["summary"] = val
 
 		if err := tftypes.ValidateValue(objectType, vals); err != nil {
 			return tftypes.NewValue(objectType, tftypes.UnknownValue), err
@@ -2630,7 +2683,8 @@ func (v StatusValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 		"details": basetypes.ListType{
 			ElemType: DetailsValue{}.Type(ctx),
 		},
-		"result": basetypes.StringType{},
+		"result":  basetypes.StringType{},
+		"summary": basetypes.StringType{},
 	}
 
 	if v.IsNull() {
@@ -2646,6 +2700,7 @@ func (v StatusValue) ToObjectValue(ctx context.Context) (basetypes.ObjectValue, 
 		map[string]attr.Value{
 			"details": details,
 			"result":  v.Result,
+			"summary": v.Summary,
 		})
 
 	return objVal, diags
@@ -2674,6 +2729,10 @@ func (v StatusValue) Equal(o attr.Value) bool {
 		return false
 	}
 
+	if !v.Summary.Equal(other.Summary) {
+		return false
+	}
+
 	return true
 }
 
@@ -2690,7 +2749,8 @@ func (v StatusValue) AttributeTypes(ctx context.Context) map[string]attr.Type {
 		"details": basetypes.ListType{
 			ElemType: DetailsValue{}.Type(ctx),
 		},
-		"result": basetypes.StringType{},
+		"result":  basetypes.StringType{},
+		"summary": basetypes.StringType{},
 	}
 }
 

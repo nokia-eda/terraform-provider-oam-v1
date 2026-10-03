@@ -32,6 +32,12 @@ datasources:
   - model_name: tech_support
     oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/techsupports/{name}
     oas_schema: com.nokia.eda.oam.v1.TechSupport
+  - model_name: trace_route_list
+    oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes
+    oas_schema: com.nokia.eda.oam.v1.TraceRouteList
+  - model_name: trace_route
+    oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}
+    oas_schema: com.nokia.eda.oam.v1.TraceRoute
 
 resources:
   - model_name: mirror
@@ -46,6 +52,9 @@ resources:
   - model_name: tech_support
     oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/techsupports
     oas_schema: com.nokia.eda.oam.v1.TechSupport
+  - model_name: trace_route
+    oas_endpoint: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes
+    oas_schema: com.nokia.eda.oam.v1.TraceRoute
 
 qualified:
   datasources:

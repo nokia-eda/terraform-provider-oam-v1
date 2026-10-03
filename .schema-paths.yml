@@ -52,6 +52,9 @@ workflow_get_inputs_resp_elem:
   - read:
       path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/techsupports/{name}/_input
       method: GET
+  - read:
+      path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_input
+      method: GET
 
 workflow_input_data:
   - update:
@@ -59,6 +62,9 @@ workflow_input_data:
       method: PUT
   - update:
       path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/techsupports/{name}/_input
+      method: PUT
+  - update:
+      path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_input
       method: PUT
 
 com.nokia.eda.oam.v1.mirror:
@@ -153,10 +159,26 @@ com.nokia.eda.oam.v1.threshold_deleted_resources:
       path: /apps/oam.eda.nokia.com/v1/namespaces/{namespace}/thresholds/_deleted
       method: GET
 
-totalPaths: 33
-totalSchemas: 73
-usedSchemas: 19
-unusedSchemas: 54
+com.nokia.eda.oam.v1.trace_route:
+  - create:
+      path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes
+      method: POST
+  - read:
+      path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}
+      method: GET
+
+com.nokia.eda.oam.v1.trace_route_list:
+  - read:
+      path: /workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes
+      method: GET
+  - read:
+      path: /workflows/v1/oam.eda.nokia.com/v1/traceroutes
+      method: GET
+
+totalPaths: 41
+totalSchemas: 78
+usedSchemas: 21
+unusedSchemas: 57
 unusedSchemaList:
   - AppGroupVersion
   - ErrorResponse
@@ -212,3 +234,6 @@ unusedSchemaList:
   - com.nokia.eda.oam.v1.Threshold_alarms
   - com.nokia.eda.oam.v1.Threshold_deviations
   - com.nokia.eda.oam.v1.Threshold_metadata
+  - com.nokia.eda.oam.v1.TraceRoute_alarms
+  - com.nokia.eda.oam.v1.TraceRoute_deviations
+  - com.nokia.eda.oam.v1.TraceRoute_metadata

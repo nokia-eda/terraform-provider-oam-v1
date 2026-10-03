@@ -84,9 +84,7 @@
             "type": "string"
           },
           "values": {
-            "additionalProperties": {
-              "type": "object"
-            },
+            "additionalProperties": true,
             "description": "Associated data/information.\nThe error \"message\" may contain {{name}} escapes that should be substituted with information from this dictionary.\n\nNote that this map MUST NOT contain JSON objects (`{...}`) or arrays (`[...]`), only simple JSON types are permitted.",
             "type": "object"
           }
@@ -149,6 +147,10 @@
           "x-permissive": {
             "description": "For an \"add\" operation, an already-present field referenced by the \"path\" will\nresult in an error unless this field is true.  Similarly for a non-existent\ntarget field of a \"remove\" operation.",
             "type": "boolean"
+          },
+          "x-ui-annotation": {
+            "description": "Metadata maintained in support of the EDA UI.  External use not recommended.",
+            "type": "string"
           }
         },
         "required": [
@@ -581,10 +583,16 @@
           "endpoint_a_name": {
             "type": "string"
           },
+          "endpoint_a_namespace": {
+            "type": "string"
+          },
           "endpoint_b": {
             "$ref": "#/components/schemas/TopoOverlayEndpoint"
           },
           "endpoint_b_name": {
+            "type": "string"
+          },
+          "endpoint_b_namespace": {
             "type": "string"
           },
           "group_key": {
@@ -1476,6 +1484,20 @@
                                         "x-eda-nokia-com": {
                                           "ui-column-span": 2,
                                           "ui-order-priority": 1000,
+                                          "ui-render": [
+                                            {
+                                              "color": "kpi_info",
+                                              "condition": "field===true",
+                                              "icon": "ToggleOn",
+                                              "text": "True"
+                                            },
+                                            {
+                                              "color": "kpi_disabled",
+                                              "condition": "field===false",
+                                              "icon": "ToggleOff",
+                                              "text": "False"
+                                            }
+                                          ],
                                           "ui-single-line-group": "Fragment"
                                         }
                                       },
@@ -1492,6 +1514,20 @@
                                             }
                                           ],
                                           "ui-order-priority": 1050,
+                                          "ui-render": [
+                                            {
+                                              "color": "kpi_info",
+                                              "condition": "field===true",
+                                              "icon": "ToggleOn",
+                                              "text": "True"
+                                            },
+                                            {
+                                              "color": "kpi_disabled",
+                                              "condition": "field===false",
+                                              "icon": "ToggleOff",
+                                              "text": "False"
+                                            }
+                                          ],
                                           "ui-single-line-group": "Fragment"
                                         }
                                       },
@@ -1566,6 +1602,20 @@
                                         "type": "boolean",
                                         "x-eda-nokia-com": {
                                           "ui-column-span": 1,
+                                          "ui-render": [
+                                            {
+                                              "color": "kpi_info",
+                                              "condition": "field===true",
+                                              "icon": "ToggleOn",
+                                              "text": "True"
+                                            },
+                                            {
+                                              "color": "kpi_disabled",
+                                              "condition": "field===false",
+                                              "icon": "ToggleOff",
+                                              "text": "False"
+                                            }
+                                          ],
                                           "ui-single-line-group": "Action"
                                         }
                                       },
@@ -1650,7 +1700,21 @@
                                             "type": "boolean",
                                             "x-eda-nokia-com": {
                                               "ui-column-span": 2,
-                                              "ui-order-priority": 300
+                                              "ui-order-priority": 300,
+                                              "ui-render": [
+                                                {
+                                                  "color": "kpi_info",
+                                                  "condition": "field===true",
+                                                  "icon": "ToggleOn",
+                                                  "text": "True"
+                                                },
+                                                {
+                                                  "color": "kpi_disabled",
+                                                  "condition": "field===false",
+                                                  "icon": "ToggleOff",
+                                                  "text": "False"
+                                                }
+                                              ]
                                             }
                                           },
                                           "peakRateKbps": {
@@ -2012,7 +2076,21 @@
                               "type": "boolean",
                               "x-eda-nokia-com": {
                                 "ui-column-span": 1,
-                                "ui-order-priority": 1050
+                                "ui-order-priority": 1050,
+                                "ui-render": [
+                                  {
+                                    "color": "kpi_info",
+                                    "condition": "field===true",
+                                    "icon": "ToggleOn",
+                                    "text": "True"
+                                  },
+                                  {
+                                    "color": "kpi_disabled",
+                                    "condition": "field===false",
+                                    "icon": "ToggleOff",
+                                    "text": "False"
+                                  }
+                                ]
                               }
                             }
                           },
@@ -2071,6 +2149,7 @@
                                 "properties": {
                                   "index": {
                                     "description": "Index of the sub-interface. This is ignored on a node running SROS.",
+                                    "format": "int64",
                                     "title": "Subinterface Index",
                                     "type": "integer",
                                     "x-eda-nokia-com": {
@@ -2249,6 +2328,7 @@
                           "properties": {
                             "index": {
                               "description": "Index of the sub-interface. This is ignored on a node running SROS.",
+                              "format": "int64",
                               "title": "Subinterface Index",
                               "type": "integer",
                               "x-eda-nokia-com": {
@@ -2380,31 +2460,37 @@
               },
               "numActiveIPv4FilterSubinterfaces": {
                 "description": "Total number of active subinterfaces used as sources of the mirror derived from IPV4Filter associations.",
+                "format": "int64",
                 "title": "Number of Active IPv4 Filter Subinterfaces",
                 "type": "integer"
               },
               "numActiveIPv6FilterSubinterfaces": {
                 "description": "Total number of active subinterfaces used as sources of the mirror derived from IPV6Filter associations.",
+                "format": "int64",
                 "title": "Number of Active IPv6 Filter Subinterfaces",
                 "type": "integer"
               },
               "numActiveInterfaces": {
                 "description": "Total number of active Interfaces used as sources of the mirror.",
+                "format": "int64",
                 "title": "Number of Active Interfaces",
                 "type": "integer"
               },
               "numActiveSubinterfaces": {
                 "description": "Total number of active subinterfaces used as sources of the mirror.",
+                "format": "int64",
                 "title": "Number of Active Subinterfaces",
                 "type": "integer"
               },
               "numActiveVLANSubinterfaces": {
                 "description": "Total number of active subinterfaces used as sources of the mirror derived from VLAN resource references.",
+                "format": "int64",
                 "title": "Number of Active VLAN Subinterfaces",
                 "type": "integer"
               },
               "numberActiveBridgeInterfaces": {
                 "description": "Total number of active subinterfaces used as sources of the mirror derived from BridgeInterface resource references.",
+                "format": "int64",
                 "title": "Number of Active Bridge Interfaces",
                 "type": "integer"
               },
@@ -2453,6 +2539,7 @@
                     },
                     "subinterfaceIndex": {
                       "description": "Index allocated to the subinterface which is being mirrored. If an interface is used as a source, this will not be set.",
+                      "format": "int64",
                       "title": "Subinterface Index",
                       "type": "integer"
                     },
@@ -2518,6 +2605,10 @@
             "format": "date-time",
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "group": "core.eda.nokia.com",
+                "title": "commitTime"
+              },
               "ui-order-priority": 50,
               "ui-title": "Commit Time",
               "ui-title-key": "commitTime"
@@ -2526,6 +2617,10 @@
           "hash": {
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "group": "core.eda.nokia.com",
+                "title": "commitHash"
+              },
               "ui-order-priority": 40,
               "ui-title": "Commit Hash",
               "ui-title-key": "commitHash"
@@ -2534,6 +2629,14 @@
           "name": {
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "group": "core.eda.nokia.com",
+                "title": "name"
+              },
+              "key": {
+                "index": 2,
+                "is-name": true
+              },
               "ui-order-priority": 10,
               "ui-title": "Name",
               "ui-title-key": "name"
@@ -2542,6 +2645,14 @@
           "namespace": {
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "group": "core.eda.nokia.com",
+                "title": "namespace"
+              },
+              "key": {
+                "index": 1,
+                "is-namespace": true
+              },
               "ui-order-priority": 20,
               "ui-title": "Namespace",
               "ui-title-key": "namespace"
@@ -2551,6 +2662,10 @@
             "format": "uint64",
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "group": "core.eda.nokia.com",
+                "title": "transactionId"
+              },
               "ui-order-priority": 30,
               "ui-title": "Transaction ID",
               "ui-title-key": "transactionId"
@@ -2572,6 +2687,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.critical"
+              },
               "ui-title": "Critical",
               "ui-title-key": "alarm_severities.critical"
             }
@@ -2581,6 +2699,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.major"
+              },
               "ui-title": "Major",
               "ui-title-key": "alarm_severities.major"
             }
@@ -2590,6 +2711,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.minor"
+              },
               "ui-title": "minor",
               "ui-title-key": "alarm_severities.minor"
             }
@@ -2599,6 +2723,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.warning"
+              },
               "ui-title": "Warning",
               "ui-title-key": "alarm_severities.warning"
             }
@@ -2607,6 +2734,10 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "alarms"
+          },
           "ui-order-priority": 40,
           "ui-title": "Alarms",
           "ui-title-key": "alarms"
@@ -2619,6 +2750,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "count_column"
+              },
               "ui-title": "Count",
               "ui-title-key": "count_column"
             }
@@ -2627,6 +2761,10 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "deviations"
+          },
           "ui-order-priority": 50,
           "ui-title": "Deviations",
           "ui-title-key": "deviations"
@@ -2640,6 +2778,9 @@
             },
             "type": "object",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "annotations"
+              },
               "ui-order-priority": 40,
               "ui-title": "Annotations",
               "ui-title-key": "annotations"
@@ -2651,6 +2792,9 @@
             },
             "type": "object",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "labels"
+              },
               "ui-auto-completes": [
                 {
                   "condition": "true",
@@ -2670,7 +2814,15 @@
             "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$",
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "name"
+              },
               "immutable": true,
+              "key": {
+                "index": 2,
+                "is-mirror": true,
+                "is-name": true
+              },
               "ui-order-priority": 10,
               "ui-pattern-error": "A valid name is made up of one or more components where each component is separated by period characters.  Each component must start and end with a lower case alphanumeric character and the body of the component is made up of zero or more lower case alphanumeric and hyphen characters.",
               "ui-title": "Name",
@@ -2680,7 +2832,15 @@
           "namespace": {
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "namespace"
+              },
               "immutable": true,
+              "key": {
+                "index": 1,
+                "is-mirror": true,
+                "is-namespace": true
+              },
               "ui-order-priority": 20,
               "ui-title": "Namespace",
               "ui-title-key": "namespace"
@@ -2693,6 +2853,10 @@
         ],
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "metadata"
+          },
           "ui-order-priority": 10,
           "ui-title": "Metadata",
           "ui-title-key": "metadata"
@@ -2743,6 +2907,7 @@
               "count": {
                 "default": 1,
                 "description": "Count is the number of pings to send.",
+                "format": "int64",
                 "title": "Count",
                 "type": "integer",
                 "x-eda-nokia-com": {
@@ -2803,6 +2968,7 @@
               "timeoutSeconds": {
                 "default": 5,
                 "description": "TimeoutSeconds is the timeout for the ping in seconds.",
+                "format": "int64",
                 "title": "Timeout Seconds",
                 "type": "integer",
                 "x-eda-nokia-com": {
@@ -2866,6 +3032,7 @@
                         },
                         "received": {
                           "description": "Number of pings received.",
+                          "format": "int64",
                           "title": "Received",
                           "type": "integer",
                           "x-eda-nokia-com": {
@@ -2876,6 +3043,7 @@
                         },
                         "sent": {
                           "description": "Number of pings sent.",
+                          "format": "int64",
                           "title": "Sent",
                           "type": "integer",
                           "x-eda-nokia-com": {
@@ -2966,6 +3134,11 @@
                 ],
                 "title": "Result",
                 "type": "string"
+              },
+              "summary": {
+                "description": "Summary is the result summary of the ping operation.",
+                "title": "Summary",
+                "type": "string"
               }
             },
             "readOnly": true,
@@ -3013,6 +3186,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.critical"
+              },
               "ui-title": "Critical",
               "ui-title-key": "alarm_severities.critical"
             }
@@ -3022,6 +3198,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.major"
+              },
               "ui-title": "Major",
               "ui-title-key": "alarm_severities.major"
             }
@@ -3031,6 +3210,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.minor"
+              },
               "ui-title": "minor",
               "ui-title-key": "alarm_severities.minor"
             }
@@ -3040,6 +3222,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.warning"
+              },
               "ui-title": "Warning",
               "ui-title-key": "alarm_severities.warning"
             }
@@ -3048,6 +3233,10 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "alarms"
+          },
           "ui-order-priority": 40,
           "ui-title": "Alarms",
           "ui-title-key": "alarms"
@@ -3060,6 +3249,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "count_column"
+              },
               "ui-title": "Count",
               "ui-title-key": "count_column"
             }
@@ -3068,6 +3260,10 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "deviations"
+          },
           "ui-order-priority": 50,
           "ui-title": "Deviations",
           "ui-title-key": "deviations"
@@ -3081,6 +3277,9 @@
             },
             "type": "object",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "annotations"
+              },
               "ui-order-priority": 40,
               "ui-title": "Annotations",
               "ui-title-key": "annotations"
@@ -3092,6 +3291,9 @@
             },
             "type": "object",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "labels"
+              },
               "ui-auto-completes": [
                 {
                   "condition": "true",
@@ -3111,7 +3313,15 @@
             "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$",
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "name"
+              },
               "immutable": true,
+              "key": {
+                "index": 2,
+                "is-mirror": true,
+                "is-name": true
+              },
               "ui-order-priority": 10,
               "ui-pattern-error": "A valid name is made up of one or more components where each component is separated by period characters.  Each component must start and end with a lower case alphanumeric character and the body of the component is made up of zero or more lower case alphanumeric and hyphen characters.",
               "ui-title": "Name",
@@ -3121,7 +3331,15 @@
           "namespace": {
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "namespace"
+              },
               "immutable": true,
+              "key": {
+                "index": 1,
+                "is-mirror": true,
+                "is-namespace": true
+              },
               "ui-order-priority": 20,
               "ui-title": "Namespace",
               "ui-title-key": "namespace"
@@ -3134,6 +3352,10 @@
         ],
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "metadata"
+          },
           "ui-order-priority": 10,
           "ui-title": "Metadata",
           "ui-title-key": "metadata"
@@ -3281,6 +3503,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.critical"
+              },
               "ui-title": "Critical",
               "ui-title-key": "alarm_severities.critical"
             }
@@ -3290,6 +3515,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.major"
+              },
               "ui-title": "Major",
               "ui-title-key": "alarm_severities.major"
             }
@@ -3299,6 +3527,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.minor"
+              },
               "ui-title": "minor",
               "ui-title-key": "alarm_severities.minor"
             }
@@ -3308,6 +3539,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.warning"
+              },
               "ui-title": "Warning",
               "ui-title-key": "alarm_severities.warning"
             }
@@ -3316,6 +3550,10 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "alarms"
+          },
           "ui-order-priority": 40,
           "ui-title": "Alarms",
           "ui-title-key": "alarms"
@@ -3328,6 +3566,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "count_column"
+              },
               "ui-title": "Count",
               "ui-title-key": "count_column"
             }
@@ -3336,6 +3577,10 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "deviations"
+          },
           "ui-order-priority": 50,
           "ui-title": "Deviations",
           "ui-title-key": "deviations"
@@ -3349,6 +3594,9 @@
             },
             "type": "object",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "annotations"
+              },
               "ui-order-priority": 40,
               "ui-title": "Annotations",
               "ui-title-key": "annotations"
@@ -3360,6 +3608,9 @@
             },
             "type": "object",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "labels"
+              },
               "ui-auto-completes": [
                 {
                   "condition": "true",
@@ -3379,7 +3630,15 @@
             "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$",
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "name"
+              },
               "immutable": true,
+              "key": {
+                "index": 2,
+                "is-mirror": true,
+                "is-name": true
+              },
               "ui-order-priority": 10,
               "ui-pattern-error": "A valid name is made up of one or more components where each component is separated by period characters.  Each component must start and end with a lower case alphanumeric character and the body of the component is made up of zero or more lower case alphanumeric and hyphen characters.",
               "ui-title": "Name",
@@ -3389,7 +3648,15 @@
           "namespace": {
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "namespace"
+              },
               "immutable": true,
+              "key": {
+                "index": 1,
+                "is-mirror": true,
+                "is-namespace": true
+              },
               "ui-order-priority": 20,
               "ui-title": "Namespace",
               "ui-title-key": "namespace"
@@ -3402,6 +3669,10 @@
         ],
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "metadata"
+          },
           "ui-order-priority": 10,
           "ui-title": "Metadata",
           "ui-title-key": "metadata"
@@ -3608,6 +3879,7 @@
                 "properties": {
                   "criticalThreshold": {
                     "description": "The minimum average utilization over the last 1 minute to trigger a critical alarm.\nThis value must be greater than the majorThreshold.",
+                    "format": "int64",
                     "title": "Critical Threshold",
                     "type": "integer",
                     "x-eda-nokia-com": {
@@ -3620,6 +3892,7 @@
                   "delta": {
                     "default": 5,
                     "description": "The delta value for clearing a threshold.\nFor example, with a critical threshold of 90, direction of Rising and a delta of 5, the critical alarm will clear when the utilization drops below 85.",
+                    "format": "int64",
                     "title": "Delta",
                     "type": "integer",
                     "x-eda-nokia-com": {
@@ -3647,6 +3920,7 @@
                   },
                   "majorThreshold": {
                     "description": "The minimum average utilization over the last 1 minute to trigger a major alarm.\nThis value must be greater than the minorThreshold.",
+                    "format": "int64",
                     "title": "Major Threshold",
                     "type": "integer",
                     "x-eda-nokia-com": {
@@ -3658,6 +3932,7 @@
                   },
                   "minorThreshold": {
                     "description": "The minimum average utilization over the last 1 minute to trigger a minor alarm.",
+                    "format": "int64",
                     "title": "Minor Threshold",
                     "type": "integer",
                     "x-eda-nokia-com": {
@@ -3669,6 +3944,7 @@
                   },
                   "warningThreshold": {
                     "description": "The minimum average utilization over the last 1 minute to trigger a warning alarm.",
+                    "format": "int64",
                     "title": "Warning Threshold",
                     "type": "integer",
                     "x-eda-nokia-com": {
@@ -3749,6 +4025,10 @@
             "format": "date-time",
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "group": "core.eda.nokia.com",
+                "title": "commitTime"
+              },
               "ui-order-priority": 50,
               "ui-title": "Commit Time",
               "ui-title-key": "commitTime"
@@ -3757,6 +4037,10 @@
           "hash": {
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "group": "core.eda.nokia.com",
+                "title": "commitHash"
+              },
               "ui-order-priority": 40,
               "ui-title": "Commit Hash",
               "ui-title-key": "commitHash"
@@ -3765,6 +4049,14 @@
           "name": {
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "group": "core.eda.nokia.com",
+                "title": "name"
+              },
+              "key": {
+                "index": 2,
+                "is-name": true
+              },
               "ui-order-priority": 10,
               "ui-title": "Name",
               "ui-title-key": "name"
@@ -3773,6 +4065,14 @@
           "namespace": {
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "group": "core.eda.nokia.com",
+                "title": "namespace"
+              },
+              "key": {
+                "index": 1,
+                "is-namespace": true
+              },
               "ui-order-priority": 20,
               "ui-title": "Namespace",
               "ui-title-key": "namespace"
@@ -3782,6 +4082,10 @@
             "format": "uint64",
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "group": "core.eda.nokia.com",
+                "title": "transactionId"
+              },
               "ui-order-priority": 30,
               "ui-title": "Transaction ID",
               "ui-title-key": "transactionId"
@@ -3803,6 +4107,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.critical"
+              },
               "ui-title": "Critical",
               "ui-title-key": "alarm_severities.critical"
             }
@@ -3812,6 +4119,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.major"
+              },
               "ui-title": "Major",
               "ui-title-key": "alarm_severities.major"
             }
@@ -3821,6 +4131,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.minor"
+              },
               "ui-title": "minor",
               "ui-title-key": "alarm_severities.minor"
             }
@@ -3830,6 +4143,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.warning"
+              },
               "ui-title": "Warning",
               "ui-title-key": "alarm_severities.warning"
             }
@@ -3838,6 +4154,10 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "alarms"
+          },
           "ui-order-priority": 40,
           "ui-title": "Alarms",
           "ui-title-key": "alarms"
@@ -3850,6 +4170,9 @@
             "readOnly": true,
             "type": "integer",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "count_column"
+              },
               "ui-title": "Count",
               "ui-title-key": "count_column"
             }
@@ -3858,6 +4181,10 @@
         "readOnly": true,
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "deviations"
+          },
           "ui-order-priority": 50,
           "ui-title": "Deviations",
           "ui-title-key": "deviations"
@@ -3871,6 +4198,9 @@
             },
             "type": "object",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "annotations"
+              },
               "ui-order-priority": 40,
               "ui-title": "Annotations",
               "ui-title-key": "annotations"
@@ -3882,6 +4212,9 @@
             },
             "type": "object",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "labels"
+              },
               "ui-auto-completes": [
                 {
                   "condition": "true",
@@ -3901,7 +4234,15 @@
             "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$",
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "name"
+              },
               "immutable": true,
+              "key": {
+                "index": 2,
+                "is-mirror": true,
+                "is-name": true
+              },
               "ui-order-priority": 10,
               "ui-pattern-error": "A valid name is made up of one or more components where each component is separated by period characters.  Each component must start and end with a lower case alphanumeric character and the body of the component is made up of zero or more lower case alphanumeric and hyphen characters.",
               "ui-title": "Name",
@@ -3911,7 +4252,15 @@
           "namespace": {
             "type": "string",
             "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "namespace"
+              },
               "immutable": true,
+              "key": {
+                "index": 1,
+                "is-mirror": true,
+                "is-namespace": true
+              },
               "ui-order-priority": 20,
               "ui-title": "Namespace",
               "ui-title-key": "namespace"
@@ -3924,6 +4273,596 @@
         ],
         "type": "object",
         "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "metadata"
+          },
+          "ui-order-priority": 10,
+          "ui-title": "Metadata",
+          "ui-title-key": "metadata"
+        }
+      },
+      "com.nokia.eda.oam.v1.TraceRoute": {
+        "description": "TraceRoute is the Schema for the traceroutes API",
+        "properties": {
+          "alarms": {
+            "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRoute_alarms"
+          },
+          "apiVersion": {
+            "default": "oam.eda.nokia.com/v1",
+            "pattern": "^oam\\.eda\\.nokia\\.com/v1$",
+            "type": "string",
+            "x-eda-nokia-com": {
+              "ui-pattern-error": "The apiVersion must be set to oam.eda.nokia.com/v1",
+              "ui-visible-if": "false"
+            }
+          },
+          "deviations": {
+            "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRoute_deviations"
+          },
+          "kind": {
+            "default": "TraceRoute",
+            "pattern": "^TraceRoute$",
+            "type": "string",
+            "x-eda-nokia-com": {
+              "ui-pattern-error": "The kind must be set to TraceRoute",
+              "ui-visible-if": "false"
+            }
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRoute_metadata"
+          },
+          "spec": {
+            "description": "TraceRouteSpec defines the desired state of TraceRoute",
+            "properties": {
+              "destination": {
+                "description": "Destination to TraceRoute to.\nThis is a single IP address (IPv4 or IPv6) or a hostname that resolves to an IP address.",
+                "minLength": 1,
+                "title": "Target Destination",
+                "type": "string",
+                "x-eda-nokia-com": {
+                  "ui-column-span": 2,
+                  "ui-conditions": [
+                    {
+                      "condition": "self.destination?.length \u003e 0",
+                      "errorMsg": "Destination must be set"
+                    }
+                  ],
+                  "ui-order-priority": 50
+                }
+              },
+              "networkInstance": {
+                "default": "default",
+                "description": "The network instance to use for the TraceRoute. This is the named network instance on the node, typically \"default\" or some other base name.\nIf not specified, the default network instance will be used, which is typically the main/default/global network interface on the node.",
+                "title": "Network Instance",
+                "type": "string",
+                "x-eda-nokia-com": {
+                  "ui-column-span": 2,
+                  "ui-order-priority": 250
+                }
+              },
+              "nodeSelectors": {
+                "description": "List of selectors to select nodes to perform TraceRoutes on.\nThis matches labels on TopoNode resources, including those TopoNodes in the list of nodes that TraceRoutes will be performed on.\nIf no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.",
+                "format": "labelselector",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Node Selectors",
+                "type": "array",
+                "x-eda-nokia-com": {
+                  "ui-auto-completes": [
+                    {
+                      "condition": "true",
+                      "group": "core.eda.nokia.com",
+                      "kind": "TopoNode",
+                      "type": "labelselector"
+                    }
+                  ],
+                  "ui-conditions": [
+                    {
+                      "condition": "self.nodes?.length \u003e 0 || self.nodeSelectors?.length \u003e 0",
+                      "errorMsg": "Nodes or Node Selectors must be set"
+                    }
+                  ],
+                  "ui-order-priority": 200
+                }
+              },
+              "nodes": {
+                "description": "List of nodes to perform TraceRoutes from.\nItems in the list should be the names of the nodes, where each node will have a TraceRoute performed on it.\nIf no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Nodes",
+                "type": "array",
+                "x-eda-nokia-com": {
+                  "ui-auto-completes": [
+                    {
+                      "condition": "true",
+                      "group": "core.eda.nokia.com",
+                      "resource": "toponodes",
+                      "type": "gvr"
+                    }
+                  ],
+                  "ui-conditions": [
+                    {
+                      "condition": "self.nodes?.length \u003e 0 || self.nodeSelectors?.length \u003e 0",
+                      "errorMsg": "Nodes or Node Selectors must be set"
+                    }
+                  ],
+                  "ui-order-priority": 100
+                }
+              },
+              "options": {
+                "default": {},
+                "description": "Additional options for the TraceRoute operation, such as number of pings to send, packet size, etc.",
+                "properties": {
+                  "doNotFragment": {
+                    "default": false,
+                    "description": "Disable fragmentation of IPv4 TraceRoute packets by setting the \"Don't Fragment\" flag.\nDefault value is false, which means fragmentation is allowed for IPv4 packets.",
+                    "title": "Don't Fragment",
+                    "type": "boolean",
+                    "x-eda-nokia-com": {
+                      "ui-column-span": 2,
+                      "ui-order-priority": 150
+                    }
+                  },
+                  "doNotLookupAsn": {
+                    "default": false,
+                    "description": "Disable ASN lookup for TraceRoute hops. This can speed up TraceRoutes by not performing ASN lookups for each hop.\nDefault value is false, which means ASN lookups will be performed for each hop.",
+                    "title": "Do not lookup ASN",
+                    "type": "boolean",
+                    "x-eda-nokia-com": {
+                      "ui-column-span": 2,
+                      "ui-order-priority": 350
+                    }
+                  },
+                  "doNotResolve": {
+                    "default": false,
+                    "description": "Disable DNS resolution for TraceRoute hops. This can speed up TraceRoutes by not performing DNS lookups for each hop.\nDefault value is false, which means DNS lookups will be performed for each hop.",
+                    "title": "Do not resolve",
+                    "type": "boolean",
+                    "x-eda-nokia-com": {
+                      "ui-column-span": 2,
+                      "ui-order-priority": 200
+                    }
+                  },
+                  "initialTTL": {
+                    "default": 1,
+                    "description": "Initial TTL (Time To Live) value for the TraceRoute packets.\nDefault is 1.",
+                    "format": "int32",
+                    "title": "Initial TTL",
+                    "type": "integer",
+                    "x-eda-nokia-com": {
+                      "ui-order-priority": 50
+                    }
+                  },
+                  "l3Protocol": {
+                    "default": "Unspecified",
+                    "description": "Layer3 protocol to use for the TraceRoute. This can be either \"IPv4\" or \"IPv6\". If not specified, the protocol will be determined based on the destination address (IPv4 or IPv6).",
+                    "enum": [
+                      "Unspecified",
+                      "IPv4",
+                      "IPv6"
+                    ],
+                    "title": "Layer 3 Protocol",
+                    "type": "string",
+                    "x-eda-nokia-com": {
+                      "ui-column-span": 2,
+                      "ui-order-priority": 250
+                    }
+                  },
+                  "l4Protocol": {
+                    "default": "UDP",
+                    "description": "Layer4 protocol to use for the TraceRoute. This can be either \"ICMP\", \"TCP\", or \"UDP\". If not specified, the default will be \"UDP\".",
+                    "enum": [
+                      "ICMP",
+                      "TCP",
+                      "UDP"
+                    ],
+                    "title": "Layer 4 Protocol",
+                    "type": "string",
+                    "x-eda-nokia-com": {
+                      "ui-column-span": 2,
+                      "ui-order-priority": 300
+                    }
+                  },
+                  "maxTTL": {
+                    "default": 30,
+                    "description": "Maximum TTL (Time To Live) value for the TraceRoute packets.\nDefault is 30.",
+                    "format": "int32",
+                    "title": "Maximum TTL",
+                    "type": "integer",
+                    "x-eda-nokia-com": {
+                      "ui-order-priority": 100
+                    }
+                  },
+                  "timeoutMilliseconds": {
+                    "default": 5000,
+                    "description": "TimeoutMilliSeconds is the timeout per hop in milliseconds.",
+                    "format": "int32",
+                    "title": "Timeout Milliseconds",
+                    "type": "integer",
+                    "x-eda-nokia-com": {
+                      "ui-column-span": 2,
+                      "ui-order-priority": 400
+                    }
+                  }
+                },
+                "title": "TraceRoute Options",
+                "type": "object",
+                "x-eda-nokia-com": {
+                  "ui-order-priority": 300
+                }
+              }
+            },
+            "required": [
+              "destination"
+            ],
+            "title": "Specification",
+            "type": "object",
+            "x-eda-nokia-com": {
+              "ui-order-priority": 30
+            }
+          },
+          "status": {
+            "description": "TraceRouteStatus defines the observed state of TraceRoute",
+            "properties": {
+              "details": {
+                "description": "Details contains the results of the pings performed on each node.\nEach entry in the list corresponds to a node that was pinged.",
+                "items": {
+                  "description": "NodeTraceRouteResult defines the TraceRoute result, per Node.",
+                  "properties": {
+                    "details": {
+                      "default": {},
+                      "description": "Details of the TraceRoute result, if available.",
+                      "properties": {
+                        "destinationAddress": {
+                          "description": "The IPv4 or IPv6 address of the destination.",
+                          "title": "Destination Address",
+                          "type": "string"
+                        },
+                        "destinationName": {
+                          "description": "The name of the destination, if DNS resolution is enabled and successful.",
+                          "title": "Destination Name",
+                          "type": "string"
+                        },
+                        "hopsDetails": {
+                          "description": "The details of each hop in the TraceRoute, including the hop ID, address, hostname, ASN, RTT, and whether it responded to the probe.",
+                          "items": {
+                            "description": "HopDetail defines the status of each hop in the TraceRoute result.",
+                            "properties": {
+                              "address": {
+                                "description": "The IPv4 or IPv6 address of the hop.",
+                                "title": "Address",
+                                "type": "string"
+                              },
+                              "asn": {
+                                "description": "The Autonomous System Number (ASN) associated with the hop, if ASN lookup is enabled and successful.",
+                                "format": "int32",
+                                "title": "AS Number",
+                                "type": "integer"
+                              },
+                              "hopId": {
+                                "description": "The hop ID, which alligns with the TTL value for that hop.\nCurrently gNOI sends a single probe per TTL value, explicitly setting the HopID in case multiple probes per TTL value are sent in the future.",
+                                "format": "int32",
+                                "title": "Hop ID",
+                                "type": "integer"
+                              },
+                              "hostname": {
+                                "description": "The Resolved hostname of the hop, if DNS resolution is enabled and successful.",
+                                "title": "Hostname",
+                                "type": "string"
+                              },
+                              "responded": {
+                                "default": false,
+                                "description": "Indicates if the hop responded to the TraceRoute probe.",
+                                "title": "Responded",
+                                "type": "boolean"
+                              },
+                              "rtt": {
+                                "description": "The round-trip time (RTT) to the hop in milliseconds.",
+                                "title": "Round Trip Time (RTT)",
+                                "type": "string"
+                              },
+                              "state": {
+                                "description": "The state of the hop, as returned by gNOI.",
+                                "title": "State",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "title": "Hop Details",
+                          "type": "array"
+                        },
+                        "maxHops": {
+                          "description": "The maximum number of hops to returned by gNOI for the TraceRoute. This is the same amount as specified in the TraceRouteOptions in spec.",
+                          "format": "int32",
+                          "title": "Max Hops",
+                          "type": "integer"
+                        },
+                        "packetSize": {
+                          "description": "The size of the packets sent by gNOI for the TraceRoute.",
+                          "format": "int32",
+                          "title": "Packet Size",
+                          "type": "integer"
+                        }
+                      },
+                      "title": "Details",
+                      "type": "object",
+                      "x-eda-nokia-com": {
+                        "ui-order-priority": 200
+                      }
+                    },
+                    "error": {
+                      "description": "Error message, if the TraceRoute failed.",
+                      "title": "Error",
+                      "type": "string",
+                      "x-eda-nokia-com": {
+                        "ui-order-priority": 250
+                      }
+                    },
+                    "networkInstance": {
+                      "default": "default",
+                      "description": "Network instance used to source the TraceRoute from.",
+                      "title": "Network Instance",
+                      "type": "string",
+                      "x-eda-nokia-com": {
+                        "ui-column-span": 2,
+                        "ui-order-priority": 100
+                      }
+                    },
+                    "node": {
+                      "description": "Node the TraceRoute was sourced from.",
+                      "title": "Node",
+                      "type": "string",
+                      "x-eda-nokia-com": {
+                        "ui-column-span": 2,
+                        "ui-order-priority": 50
+                      }
+                    },
+                    "success": {
+                      "default": false,
+                      "description": "Indicates if the TraceRoute was successful.",
+                      "title": "Success",
+                      "type": "boolean",
+                      "x-eda-nokia-com": {
+                        "ui-column-span": 2,
+                        "ui-order-priority": 150
+                      }
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "result": {
+                "default": "Success",
+                "description": "Result is the overall result of the TraceRoute operation.\nIt can be one of the following values:\n- \"Success\": All TraceRoutes were successful.\n- \"Failed\": No TraceRoutes were successful.\n- \"PartialSuccess\": Some TraceRoutes were successful, but not all.",
+                "enum": [
+                  "Success",
+                  "Failed",
+                  "PartialSuccess"
+                ],
+                "title": "Result",
+                "type": "string"
+              }
+            },
+            "readOnly": true,
+            "title": "Status",
+            "type": "object",
+            "x-eda-nokia-com": {
+              "ui-order-priority": 20
+            }
+          }
+        },
+        "required": [
+          "apiVersion",
+          "kind",
+          "metadata",
+          "spec"
+        ],
+        "type": "object"
+      },
+      "com.nokia.eda.oam.v1.TraceRouteList": {
+        "description": "TraceRouteList is a list of traceroutes",
+        "properties": {
+          "apiVersion": {
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRoute"
+            },
+            "type": "array"
+          },
+          "kind": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiVersion",
+          "kind"
+        ],
+        "type": "object"
+      },
+      "com.nokia.eda.oam.v1.TraceRoute_alarms": {
+        "properties": {
+          "critical": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.critical"
+              },
+              "ui-title": "Critical",
+              "ui-title-key": "alarm_severities.critical"
+            }
+          },
+          "major": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.major"
+              },
+              "ui-title": "Major",
+              "ui-title-key": "alarm_severities.major"
+            }
+          },
+          "minor": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.minor"
+              },
+              "ui-title": "minor",
+              "ui-title-key": "alarm_severities.minor"
+            }
+          },
+          "warning": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "alarm_severities.warning"
+              },
+              "ui-title": "Warning",
+              "ui-title-key": "alarm_severities.warning"
+            }
+          }
+        },
+        "readOnly": true,
+        "type": "object",
+        "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "alarms"
+          },
+          "ui-order-priority": 40,
+          "ui-title": "Alarms",
+          "ui-title-key": "alarms"
+        }
+      },
+      "com.nokia.eda.oam.v1.TraceRoute_deviations": {
+        "properties": {
+          "count": {
+            "format": "int64",
+            "readOnly": true,
+            "type": "integer",
+            "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "count_column"
+              },
+              "ui-title": "Count",
+              "ui-title-key": "count_column"
+            }
+          }
+        },
+        "readOnly": true,
+        "type": "object",
+        "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "deviations"
+          },
+          "ui-order-priority": 50,
+          "ui-title": "Deviations",
+          "ui-title-key": "deviations"
+        }
+      },
+      "com.nokia.eda.oam.v1.TraceRoute_metadata": {
+        "properties": {
+          "annotations": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "annotations"
+              },
+              "ui-order-priority": 40,
+              "ui-title": "Annotations",
+              "ui-title-key": "annotations"
+            }
+          },
+          "labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "labels"
+              },
+              "ui-auto-completes": [
+                {
+                  "condition": "true",
+                  "group": "oam.eda.nokia.com",
+                  "kind": "TraceRoute",
+                  "type": "label",
+                  "version": "v1"
+                }
+              ],
+              "ui-order-priority": 30,
+              "ui-title": "Labels",
+              "ui-title-key": "labels"
+            }
+          },
+          "name": {
+            "maxLength": 253,
+            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$",
+            "type": "string",
+            "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "name"
+              },
+              "immutable": true,
+              "key": {
+                "index": 2,
+                "is-mirror": true,
+                "is-name": true
+              },
+              "ui-order-priority": 10,
+              "ui-pattern-error": "A valid name is made up of one or more components where each component is separated by period characters.  Each component must start and end with a lower case alphanumeric character and the body of the component is made up of zero or more lower case alphanumeric and hyphen characters.",
+              "ui-title": "Name",
+              "ui-title-key": "name"
+            }
+          },
+          "namespace": {
+            "type": "string",
+            "x-eda-nokia-com": {
+              "i18n-keys": {
+                "title": "namespace"
+              },
+              "immutable": true,
+              "key": {
+                "index": 1,
+                "is-mirror": true,
+                "is-namespace": true
+              },
+              "ui-order-priority": 20,
+              "ui-title": "Namespace",
+              "ui-title-key": "namespace"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "namespace"
+        ],
+        "type": "object",
+        "x-eda-nokia-com": {
+          "i18n-keys": {
+            "group": "core.eda.nokia.com",
+            "title": "metadata"
+          },
           "ui-order-priority": 10,
           "ui-title": "Metadata",
           "ui-title-key": "metadata"
@@ -4195,6 +5134,15 @@
             }
           },
           {
+            "description": "If true, pipelines will not be run for the resulting transaction",
+            "in": "query",
+            "name": "skipPipeline",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "description": "the namespace scope from which to perform the delete",
             "in": "path",
             "name": "namespace",
@@ -4358,6 +5306,15 @@
             }
           },
           {
+            "description": "If true, pipelines will not be run for the resulting transaction",
+            "in": "query",
+            "name": "skipPipeline",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "in": "path",
             "name": "namespace",
             "required": true,
@@ -4493,6 +5450,15 @@
             "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
             "in": "query",
             "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "If true, pipelines will not be run for the resulting transaction",
+            "in": "query",
+            "name": "skipPipeline",
             "schema": {
               "default": false,
               "type": "boolean"
@@ -4653,6 +5619,15 @@
             }
           },
           {
+            "description": "If true, pipelines will not be run for the resulting transaction",
+            "in": "query",
+            "name": "skipPipeline",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "in": "path",
             "name": "namespace",
             "required": true,
@@ -4731,6 +5706,15 @@
             "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
             "in": "query",
             "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "If true, pipelines will not be run for the resulting transaction",
+            "in": "query",
+            "name": "skipPipeline",
             "schema": {
               "default": false,
               "type": "boolean"
@@ -5076,6 +6060,15 @@
             }
           },
           {
+            "description": "If true, pipelines will not be run for the resulting transaction",
+            "in": "query",
+            "name": "skipPipeline",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "description": "the namespace scope from which to perform the delete",
             "in": "path",
             "name": "namespace",
@@ -5239,6 +6232,15 @@
             }
           },
           {
+            "description": "If true, pipelines will not be run for the resulting transaction",
+            "in": "query",
+            "name": "skipPipeline",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "in": "path",
             "name": "namespace",
             "required": true,
@@ -5374,6 +6376,15 @@
             "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
             "in": "query",
             "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "If true, pipelines will not be run for the resulting transaction",
+            "in": "query",
+            "name": "skipPipeline",
             "schema": {
               "default": false,
               "type": "boolean"
@@ -5534,6 +6545,15 @@
             }
           },
           {
+            "description": "If true, pipelines will not be run for the resulting transaction",
+            "in": "query",
+            "name": "skipPipeline",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
             "in": "path",
             "name": "namespace",
             "required": true,
@@ -5612,6 +6632,15 @@
             "description": "If true, prevents the transaction resulting from this request from being bundled with others.",
             "in": "query",
             "name": "disableBatching",
+            "schema": {
+              "default": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "If true, pipelines will not be run for the resulting transaction",
+            "in": "query",
+            "name": "skipPipeline",
             "schema": {
               "default": false,
               "type": "boolean"
@@ -7237,6 +8266,624 @@
         ]
       }
     },
+    "/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes": {
+      "get": {
+        "operationId": "wfListOamEdaNokiaComV1NamespaceTraceroutes",
+        "parameters": [
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "a comma-separated list of resource fields to fetch/return.  If unspecified, all fields are fetched.  If empty, only key-fields are fetched.",
+            "in": "query",
+            "name": "fields",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "an EQL \"where\" expression that will be used to filter the set of resources returned.",
+            "in": "query",
+            "name": "filter",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "A label selector string to filter the results based on resource labels. If specified multiple times, the union of resources which satisfy a label-selector will be returned.",
+            "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the results based on CR labels",
+            "in": "query",
+            "name": "label-selector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRouteList"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRouteList"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "List all TraceRoute instances in this namespace.",
+        "tags": [
+          "workflows"
+        ]
+      },
+      "post": {
+        "description": "create a TraceRoute",
+        "operationId": "wfCreateOamEdaNokiaComV1NamespaceTraceroutes",
+        "parameters": [
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRoute"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRoute"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRoute"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}": {
+      "delete": {
+        "operationId": "wfDeleteOamEdaNokiaComV1NamespaceTraceroutes",
+        "parameters": [
+          {
+            "description": "name of the TraceRoute",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "no data is returned for this response type."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Delete a TraceRoute workflow.",
+        "tags": [
+          "workflows"
+        ]
+      },
+      "get": {
+        "operationId": "wfReadOamEdaNokiaComV1NamespaceTraceroutes",
+        "parameters": [
+          {
+            "description": "name of the TraceRoute",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRoute"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRoute"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Read the specified TraceRoute.",
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_artifacts": {
+      "get": {
+        "operationId": "wfListArtifactsOamEdaNokiaComV1NamespaceTraceroutes",
+        "parameters": [
+          {
+            "description": "name of the TraceRoute",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "The response for a successful list artifacts request."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Read list of artifacts generated by a TraceRoute workflow.",
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_artifacts/{artifact}": {
+      "get": {
+        "operationId": "wfReadArtifactOamEdaNokiaComV1NamespaceTraceroutes",
+        "parameters": [
+          {
+            "description": "name of the TraceRoute",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "name of the artifact to download",
+            "in": "path",
+            "name": "artifact",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "format": "binary",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "The binary content of the requested artifact."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Read artifact generated by a TraceRoute workflow.",
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_input": {
+      "get": {
+        "operationId": "wfListInputOamEdaNokiaComV1NamespaceTraceroutes",
+        "parameters": [
+          {
+            "description": "name of the TraceRoute",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/WorkflowGetInputsRespElem"
+                  },
+                  "type": "array"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/WorkflowGetInputsRespElem"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "List containing specifications for this flow \u0026 subflow's requested input."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Get inputs requested by the TraceRoute.",
+        "tags": [
+          "workflows"
+        ]
+      },
+      "put": {
+        "operationId": "wfSubmitInputOamEdaNokiaComV1NamespaceTraceroutes",
+        "parameters": [
+          {
+            "description": "name of the TraceRoute",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkflowInputData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": ""
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Submit input requested by the TraceRoute.",
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_logs": {
+      "get": {
+        "operationId": "wfReadLogsOamEdaNokiaComV1NamespaceTraceroutes",
+        "parameters": [
+          {
+            "description": "name of the TraceRoute",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "The response for a successful GET logs request."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Read logs output by the TraceRoute.",
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/workflows/v1/oam.eda.nokia.com/v1/namespaces/{namespace}/traceroutes/{name}/_terminate": {
+      "put": {
+        "operationId": "wfTerminateOamEdaNokiaComV1NamespaceTraceroutes",
+        "parameters": [
+          {
+            "description": "name of the TraceRoute",
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "the namespace scope in which to operate",
+            "in": "path",
+            "name": "namespace",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "no data is returned for this response type."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "Terminate a TraceRoute workflow.",
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
     "/workflows/v1/oam.eda.nokia.com/v1/pings": {
       "get": {
         "operationId": "wfListOamEdaNokiaComV1Pings",
@@ -7406,6 +9053,93 @@
           }
         },
         "summary": "List all TechSupport instances.",
+        "tags": [
+          "workflows"
+        ]
+      }
+    },
+    "/workflows/v1/oam.eda.nokia.com/v1/traceroutes": {
+      "get": {
+        "operationId": "wfListOamEdaNokiaComV1Traceroutes",
+        "parameters": [
+          {
+            "description": "client information for streaming request",
+            "in": "query",
+            "name": "eventclient",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "stream information for streaming request",
+            "in": "query",
+            "name": "stream",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "a comma-separated list of resource fields to fetch/return.  If unspecified, all fields are fetched.  If empty, only key-fields are fetched.",
+            "in": "query",
+            "name": "fields",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "an EQL \"where\" expression that will be used to filter the set of resources returned.",
+            "in": "query",
+            "name": "filter",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "A label selector string to filter the results based on resource labels. If specified multiple times, the union of resources which satisfy a label-selector will be returned.",
+            "in": "query",
+            "name": "labelSelector",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: a label selector string to filter the results based on CR labels",
+            "in": "query",
+            "name": "label-selector",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRouteList"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/com.nokia.eda.oam.v1.TraceRouteList"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Details of an error in response to an API REST request."
+          }
+        },
+        "summary": "List all TraceRoute instances.",
         "tags": [
           "workflows"
         ]

@@ -20,10 +20,6 @@ description: |-
 - `name` (String) name of the Ping
 - `namespace` (String) the namespace scope in which to operate
 
-### Optional
-
-- `spec` (Attributes) Ping allows a ping to be initiated to a specific address on node/set of nodes. (see [below for nested schema](#nestedatt--spec))
-
 ### Read-Only
 
 - `alarms` (Attributes) (see [below for nested schema](#nestedatt--alarms))
@@ -31,26 +27,8 @@ description: |-
 - `deviations` (Attributes) (see [below for nested schema](#nestedatt--deviations))
 - `kind` (String)
 - `metadata` (Attributes) (see [below for nested schema](#nestedatt--metadata))
+- `spec` (Attributes) Ping allows a ping to be initiated to a specific address on node/set of nodes. (see [below for nested schema](#nestedatt--spec))
 - `status` (Attributes) PingStatus defines the observed state of Ping (see [below for nested schema](#nestedatt--status))
-
-<a id="nestedatt--spec"></a>
-### Nested Schema for `spec`
-
-Optional:
-
-- `address` (String) Address to ping.
-This is a single IP address (IPv4 or IPv6) or a hostname that resolves to an IP address.
-- `count` (Number) Count is the number of pings to send.
-- `network_instance` (String) The network instance to use for the ping. This is the named network instance on the node, typically "default" or some other base name.
-If not specified, the default network instance will be used, which is typically the main/default/global network interface on the node.
-- `node_selectors` (List of String) List of selectors to select nodes to perform pings on.
-This matches labels on TopoNode resources, including those TopoNodes in the list of nodes that pings will be performed on.
-If no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.
-- `nodes` (List of String) List of nodes to perform pings from.
-Items in the list should be the names of the nodes, where each node will have a ping performed on it.
-If no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.
-- `timeout_seconds` (Number) TimeoutSeconds is the timeout for the ping in seconds.
-
 
 <a id="nestedatt--alarms"></a>
 ### Nested Schema for `alarms`
@@ -82,6 +60,25 @@ Read-Only:
 - `namespace` (String)
 
 
+<a id="nestedatt--spec"></a>
+### Nested Schema for `spec`
+
+Read-Only:
+
+- `address` (String) Address to ping.
+This is a single IP address (IPv4 or IPv6) or a hostname that resolves to an IP address.
+- `count` (Number) Count is the number of pings to send.
+- `network_instance` (String) The network instance to use for the ping. This is the named network instance on the node, typically "default" or some other base name.
+If not specified, the default network instance will be used, which is typically the main/default/global network interface on the node.
+- `node_selectors` (List of String) List of selectors to select nodes to perform pings on.
+This matches labels on TopoNode resources, including those TopoNodes in the list of nodes that pings will be performed on.
+If no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.
+- `nodes` (List of String) List of nodes to perform pings from.
+Items in the list should be the names of the nodes, where each node will have a ping performed on it.
+If no nodes are specified, and no node selectors are specified, all nodes in the given namespace will be selected.
+- `timeout_seconds` (Number) TimeoutSeconds is the timeout for the ping in seconds.
+
+
 <a id="nestedatt--status"></a>
 ### Nested Schema for `status`
 
@@ -94,6 +91,7 @@ It can be one of the following values:
 - "Success": All pings were successful.
 - "Failed": No pings were successful.
 - "PartialSuccess": Some pings were successful, but not all.
+- `summary` (String) Summary is the result summary of the ping operation.
 
 <a id="nestedatt--status--details"></a>
 ### Nested Schema for `status.details`

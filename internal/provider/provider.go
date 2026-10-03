@@ -271,6 +271,8 @@ func (p *oamProvider) DataSources(ctx context.Context) []func() datasource.DataS
 		NewTechSupportListDataSource,
 		NewThresholdDataSource,
 		NewThresholdListDataSource,
+		NewTraceRouteDataSource,
+		NewTraceRouteListDataSource,
 		NewWorkflowGetInputsRespElemDataSource,
 	}
 }
@@ -281,5 +283,6 @@ func (p *oamProvider) Resources(ctx context.Context) []func() resource.Resource 
 		NewPingResource,
 		NewTechSupportResource,
 		NewThresholdResource,
+		NewTraceRouteResource,
 	}
 }

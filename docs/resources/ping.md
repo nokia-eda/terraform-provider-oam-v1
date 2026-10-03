@@ -97,6 +97,7 @@ It can be one of the following values:
 - "Success": All pings were successful.
 - "Failed": No pings were successful.
 - "PartialSuccess": Some pings were successful, but not all.
+- `summary` (String) Summary is the result summary of the ping operation.
 
 <a id="nestedatt--status--details"></a>
 ### Nested Schema for `status.details`
